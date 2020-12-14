@@ -1,0 +1,10 @@
+{
+    "name": "ctoUI",
+    "ignoreCompilerErrors": true,
+    "out": "docs",
+    "theme": "default",
+    "excludeExternals": true,
+    "excludePrivate": true,
+    "excludeNotExported": true,
+    "includeVersion": true
+}
