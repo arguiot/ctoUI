@@ -3,6 +3,7 @@ enum PlacementList {
   Output,
   Direction,
 }
+
 export const Placement = {
   Input: PlacementList.Input,
   Output: PlacementList.Output,
@@ -12,4 +13,4 @@ export const Placement = {
   },
 };
 
-export type PlacementType = PlacementList | ((tab?: String) => string);
+export type PlacementType = PlacementList | string;

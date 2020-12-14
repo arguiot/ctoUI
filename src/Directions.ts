@@ -1,6 +1,4 @@
-enum Direction {
+export enum Direction {
   Unidirectional,
   Bidirectional,
 }
-
-export default Direction;

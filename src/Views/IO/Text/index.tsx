@@ -1,16 +1,13 @@
 import { Configuration } from "../../../Configuration";
 import { Placement, PlacementType } from "../../Placement";
-import { View, render } from "../../View";
+import { View } from "../../View";
 
-export class Text implements View {
-  bindings: Configuration;
+export class Text extends View {
   placement: PlacementType;
-  element: HTMLElement;
 
-  constructor(bindings: Configuration, element: HTMLElement) {
-    this.bindings = bindings;
+  constructor() {
+    super();
     this.placement = Placement.Input;
-    this.element = element;
   }
 
   render() {
@@ -29,7 +26,11 @@ export class Text implements View {
       </div>
     );
 
-    render(element, this.element);
+    return element;
+  }
+
+  update(element: HTMLElement, state: Configuration) {
+    element.querySelector("textarea")!.value = state.input.value;
   }
 
   get value() {

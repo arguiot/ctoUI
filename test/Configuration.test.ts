@@ -1,4 +1,4 @@
-import { Placement } from "../src";
+import { Placement } from "../dist/index";
 
 describe("Configuration", () => {
   it("should lowercase option tabs", () => {
