@@ -9,6 +9,7 @@ import {
 	render, ViewType,
 } from "./Views/View";
 import { NotificationCenter } from "@arguiot/broadcast.js";
+import { Direction } from "./Directions";
 
 /**
  * Creates and manages the plugin lifecycle
@@ -39,26 +40,24 @@ export class PluginUI {
 		this.configuration = this.configure(config);
 		this.algorithm = new algorithm(this.configuration);
 		this.parent = config.parent;
-		this.containers = []
+		this.direction = Direction.InputToOutput
 
 		NotificationCenter.default.addObserver("requestRender", this.dispatchUpdate.bind(this))
 	}
 
 	configure(config: ConfigurationInitiator) {
 		return {
-			input: new config.input(),
-			output: new config.output(),
+			input: new config.input("input"),
+			output: new config.output("output"),
 			direction: config.direction,
 			options: Object.fromEntries(
 				Object.entries(config.options).map(entry => {
-					const view = new entry[1]();
+					const view = new entry[1](entry[0]);
 					return [entry[0], view];
 				})
 			),
 		};
 	}
-
-	containers: Array<HTMLElement>
 
 	render(windowObject: any) {
 		const views = [
@@ -77,23 +76,41 @@ export class PluginUI {
 			container.className = (view[0] as string)
 			this.parent.appendChild(container);
 
-			const element = (view[1] as ViewType).render();
-			render(element, container);
-
-			this.containers.push(container)
+			const element = (view[1] as ViewType).render(container);
+			render(element, container, view[1] as ViewType);
 		});
+
+		this.dispatchUpdate(); // Hydration
 	}
 
+	direction: Direction
 
-	dispatchUpdate() {
+	dispatchUpdate(from?: Direction) {
+		if (from) {
+			this.direction = from
+		}
+		
+		switch(this.direction) {
+			case Direction.InputToOutput:
+				this.algorithm.encode()
+				break
+			case Direction.OutputToInput:
+				if (this.algorithm.decode) {
+					this.algorithm.decode()
+				}
+				break
+		}
+
 		const views = [
 			this.configuration.input,
 			this.configuration.output,
 			...Object.values(this.configuration.options)
 		]
 
-		views.forEach((view, index) => {
-			view.update(this.containers[index], this.configuration)
+		views.forEach(view => {
+			if (view.update) {
+				view.update(this.configuration)
+			}
 		})
 	}
 }

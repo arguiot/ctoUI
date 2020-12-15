@@ -21,15 +21,15 @@ export interface Configuration {
  * Dictionary containing view classes that will be created by the PluginUI
  */
 interface OptionsInitiator {
-  [key: string]: new () => ViewType;
+  [key: string]: new (name: string) => ViewType;
 }
 
 /**
  * Configuation interface for the PluginUI class
  */
 export interface ConfigurationInitiator {
-  input: new () => ViewType;
-  output: new () => ViewType;
+  input: new (name: string) => ViewType;
+  output: new (name: string) => ViewType;
   direction: Direction;
   options: OptionsInitiator;
   parent: HTMLElement;

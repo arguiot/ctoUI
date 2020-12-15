@@ -14,8 +14,8 @@ import { Notification, NotificationCenter } from "@arguiot/broadcast.js";
  */
 export interface ViewType {
 	placement: PlacementType;
-	render(): JSX.Element;
-	update(element: HTMLElement, state: Configuration): void;
+	render(element: HTMLElement): JSX.Element;
+	update?(state: Configuration): void;
 	value: any;
 }
 
@@ -24,6 +24,10 @@ export abstract class View implements ViewType {
 	 * Where to display the view
 	 */
 	placement: PlacementType;
+	/**
+	 * The name associated with the view.
+	 */
+	name: string;
 	/**
 	 * Creates a new view.
 	 * 
@@ -40,13 +44,14 @@ export abstract class View implements ViewType {
 	 * 
 	 * This way, you can specify a custom placement
 	 */
-	constructor() {
+	constructor(name: string) {
 		this.placement = Placement.Option();
+		this.name = name
 	}
 	/**
 	 * Method that will be called once, to create the HTML for the component
 	 */
-	abstract render(): JSX.Element
+	abstract render(element: HTMLElement): JSX.Element
 	/**
 	 * Method that will be called when another component requires to be updated.
 	 * 
@@ -54,7 +59,7 @@ export abstract class View implements ViewType {
 	 * @param element The parent element where the component is.
 	 * @param state The configuration object, that acts as a state
 	 */
-	abstract update(element: HTMLElement, state: Configuration): void
+	update(_state: Configuration) {} // Optional
 	/**
 	 * Getter that must return the internal state of the component.
 	 * 
@@ -81,17 +86,21 @@ export abstract class View implements ViewType {
  * @param element Any JSX element
  * @param container The HTML element you want to render your component in
  */
-export function render(element: JSX.Element, container: HTMLElement) {
+export function render(element: JSX.Element, container: HTMLElement, binder: ViewType) {
 	const dom = container.ownerDocument.createElement(element.type);
 	const isProperty = (key: any) => key !== "children";
 	Object.keys(element.props)
 		.filter(isProperty)
 		.forEach(name => {
-			dom[name] = element.props[name];
+			if (typeof element.props[name] == "function" && name.substring(0, 2) == "on") {
+				dom.addEventListener(name.substring(2).toLowerCase(), element.props[name].bind(binder))
+			} else {
+				dom[name] = element.props[name];
+			}
 		});
 
 	if (Array.isArray(element.props.children)) {
-		element.props.children.forEach((child: JSX.Element) => render(child, dom));
+		element.props.children.forEach((child: JSX.Element) => render(child, dom, binder));
 	} else if (typeof element.props.children == "string") {
 		(dom as HTMLElement).innerHTML = element.props.children;
 	}

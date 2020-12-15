@@ -30,8 +30,6 @@ describe("Render Input", () => {
 
     plugin.render(window);
 
-    expect(window.document.body.innerHTML).toBe(
-      '<div class="input"><div class="form-group mt-3"><label>Label</label><textarea rows="4" class="form-control" id="input">Input</textarea><span id="input-len" class="float-right length-label"></span></div></div><div class="output"><div class="form-group mt-3"><label>Label</label><textarea rows="4" class="form-control" id="input">Input</textarea><span id="input-len" class="float-right length-label"></span></div></div>'
-    );
+    expect(window.document.body.innerHTML).toMatchSnapshot()
   });
 });

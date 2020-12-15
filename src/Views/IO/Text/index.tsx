@@ -1,16 +1,20 @@
-import { Configuration } from "../../../Configuration";
+import { Direction } from "../../../Directions";
 import { Placement, PlacementType } from "../../Placement";
 import { View } from "../../View";
+import { Notification, NotificationCenter } from "@arguiot/broadcast.js";
+import { Configuration } from "../../../Configuration";
 
 export class Text extends View {
   placement: PlacementType;
+  element?: HTMLElement;
 
-  constructor() {
-    super();
+  constructor(name: string) {
+    super(name);
     this.placement = Placement.Input;
   }
 
-  render() {
+  render(parent: HTMLElement) {
+    this.element = parent
     const element = (
       <div className="form-group mt-3">
         <label>Label</label>
@@ -18,25 +22,36 @@ export class Text extends View {
           spellCheck="false"
           rows={4}
           className="form-control"
-          id="input"
+          onInput={() => {
+            this.requestUpdate()
+          }}
         >
           Input
         </textarea>
-        <span id="input-len" className="float-right length-label"></span>
+        <span id="field-len" className="float-right length-label"></span>
       </div>
     );
 
     return element;
   }
 
-  update(element: HTMLElement, state: Configuration) {
-    element.querySelector("textarea")!.value = state.input.value;
+  update(_state: Configuration) {
+    if (this.element) {
+      this.element.querySelector("#field-len")!.innerHTML = `length: ${this.value.length}`
+    }
   }
 
+  requestUpdate() {
+		const request = new Notification("requestRender", this.name == "input" ? Direction.InputToOutput : Direction.OutputToInput)
+		NotificationCenter.default.post(request)
+	}
+
   get value() {
-    return "";
+    return this.element?.querySelector("textarea")!.value;
   }
-  set value(_val: any) {
-    return;
+  set value(val: any) {
+    if (this.element) {
+      this.element.querySelector("textarea")!.value = val
+    }
   }
 }
