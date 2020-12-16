@@ -2,6 +2,7 @@ import {
     Direction,
     PluginUI, Text,
 } from "../../dist/index";
+import "../../dist/ctoui.cjs.production.min.css";
 
 class Algo {
     constructor(bindings) {

@@ -10,11 +10,11 @@ export class Text extends View {
 
   constructor(name: string) {
     super(name);
-    this.placement = Placement.Input;
+    this.placement = this.name == "input" ? Placement.Input : Placement.Output;
   }
 
   render(parent: HTMLElement) {
-    this.element = parent
+    this.element = parent;
     const element = (
       <div className="form-group mt-3">
         <label>Label</label>
@@ -23,7 +23,7 @@ export class Text extends View {
           rows={4}
           className="form-control"
           onInput={() => {
-            this.requestUpdate()
+            this.requestUpdate();
           }}
         >
           Input
@@ -37,21 +37,26 @@ export class Text extends View {
 
   update(_state: Configuration) {
     if (this.element) {
-      this.element.querySelector("#field-len")!.innerHTML = `length: ${this.value.length}`
+      this.element.querySelector(
+        "#field-len"
+      )!.innerHTML = `length: ${this.value.length}`;
     }
   }
 
   requestUpdate() {
-		const request = new Notification("requestRender", this.name == "input" ? Direction.InputToOutput : Direction.OutputToInput)
-		NotificationCenter.default.post(request)
-	}
+    const request = new Notification(
+      "requestRender",
+      this.name == "input" ? Direction.InputToOutput : Direction.OutputToInput
+    );
+    NotificationCenter.default.post(request);
+  }
 
   get value() {
     return this.element?.querySelector("textarea")!.value;
   }
   set value(val: any) {
     if (this.element) {
-      this.element.querySelector("textarea")!.value = val
+      this.element.querySelector("textarea")!.value = val;
     }
   }
 }

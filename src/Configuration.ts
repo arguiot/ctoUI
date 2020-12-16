@@ -15,6 +15,7 @@ export interface Configuration {
   output: ViewType;
   direction: Direction;
   options: Options;
+  currentDirection?: Direction;
 }
 
 /**

@@ -1,3 +1,4 @@
+
 export enum Direction {
   InputToOutput,
   /**
@@ -6,3 +7,5 @@ export enum Direction {
   OutputToInput,
   Both,
 }
+
+

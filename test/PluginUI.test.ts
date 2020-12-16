@@ -30,6 +30,6 @@ describe("Render Input", () => {
 
     plugin.render(window);
 
-    expect(window.document.body.innerHTML).toMatchSnapshot()
+    expect(window.document.body.innerHTML).toMatchSnapshot();
   });
 });
