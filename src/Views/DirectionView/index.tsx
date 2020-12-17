@@ -2,7 +2,7 @@ import { Configuration } from "../../Configuration";
 import { Placement, PlacementType } from "../Placement";
 import { View } from "../View";
 import { Direction } from "../../Directions";
-import "./DirectionView.css";
+import "./DirectionView.scss";
 
 export class DirectionView extends View {
 	placement: PlacementType;

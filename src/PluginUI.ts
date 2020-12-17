@@ -60,6 +60,8 @@ export class PluginUI {
   directionView?: ViewType;
 
   render(windowObject: any) {
+    this.parent.innerHTML = "" // Make sure the container is empty
+    
     const views = [
       ["input", this.configuration.input],
       ["direction", this.directionView!],
@@ -87,7 +89,7 @@ export class PluginUI {
   direction: Direction;
 
   dispatchUpdate(from?: Direction) {
-    if (from) {
+    if (typeof from != "undefined") {
       this.direction = from;
     }
 

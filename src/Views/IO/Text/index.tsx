@@ -28,7 +28,7 @@ export class Text extends View {
         >
           Input
         </textarea>
-        <span id="field-len" className="float-right length-label"></span>
+        <span id="field-len" className="float-end length-label"></span>
       </div>
     );
 

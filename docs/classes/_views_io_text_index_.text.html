@@ -97,6 +97,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_views_io_text_index_.text.html#element" class="tsd-kind-icon">element</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_views_io_text_index_.text.html#name" class="tsd-kind-icon">name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="_views_io_text_index_.text.html#placement" class="tsd-kind-icon">placement</a></li>
 							</ul>
 						</section>
@@ -110,7 +112,7 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_views_io_text_index_.text.html#render" class="tsd-kind-icon">render</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_views_io_text_index_.text.html#requestupdate" class="tsd-kind-icon">request<wbr>Update</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_views_io_text_index_.text.html#requestupdate" class="tsd-kind-icon">request<wbr>Update</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_views_io_text_index_.text.html#update" class="tsd-kind-icon">update</a></li>
 							</ul>
 						</section>
@@ -123,16 +125,22 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Text<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_views_io_text_index_.text.html" class="tsd-signature-type">Text</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Text<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_views_io_text_index_.text.html" class="tsd-signature-type">Text</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_views_view_.view.html">View</a>.<a href="_views_view_.view.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/arguiot/ctoUI/blob/14d5d37/src/Views/IO/Text/index.tsx#L6">Developer/ctoUI/src/Views/IO/Text/index.tsx:6</a></li>
+									<li>Defined in <a href="https://github.com/arguiot/ctoUI/blob/de02368/src/Views/IO/Text/index.tsx#L9">Developer/ctoUI/src/Views/IO/Text/index.tsx:9</a></li>
 								</ul>
 							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_views_io_text_index_.text.html" class="tsd-signature-type">Text</a></h4>
 						</li>
 					</ul>
@@ -140,6 +148,32 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="element" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> element</h3>
+					<div class="tsd-signature tsd-kind-icon">element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/arguiot/ctoUI/blob/de02368/src/Views/IO/Text/index.tsx#L9">Developer/ctoUI/src/Views/IO/Text/index.tsx:9</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="name" class="tsd-anchor"></a>
+					<h3>name</h3>
+					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_views_view_.view.html">View</a>.<a href="_views_view_.view.html#name">name</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/arguiot/ctoUI/blob/de02368/src/Views/View.ts#L25">Developer/ctoUI/src/Views/View.ts:25</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The name associated with the view.</p>
+						</div>
+					</div>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 					<a name="placement" class="tsd-anchor"></a>
 					<h3>placement</h3>
@@ -148,7 +182,7 @@
 						<p>Implementation of <a href="../interfaces/_views_view_.viewtype.html">ViewType</a>.<a href="../interfaces/_views_view_.viewtype.html#placement">placement</a></p>
 						<p>Overrides <a href="_views_view_.view.html">View</a>.<a href="_views_view_.view.html#placement">placement</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/arguiot/ctoUI/blob/14d5d37/src/Views/IO/Text/index.tsx#L6">Developer/ctoUI/src/Views/IO/Text/index.tsx:6</a></li>
+							<li>Defined in <a href="https://github.com/arguiot/ctoUI/blob/de02368/src/Views/IO/Text/index.tsx#L8">Developer/ctoUI/src/Views/IO/Text/index.tsx:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -160,14 +194,14 @@
 					<h3>value</h3>
 					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> value<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> value<span class="tsd-signature-symbol">(</span>_val<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> value<span class="tsd-signature-symbol">(</span>val<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_views_view_.view.html">View</a>.<a href="_views_view_.view.html#value">value</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/arguiot/ctoUI/blob/14d5d37/src/Views/IO/Text/index.tsx#L36">Developer/ctoUI/src/Views/IO/Text/index.tsx:36</a></li>
+									<li>Defined in <a href="https://github.com/arguiot/ctoUI/blob/de02368/src/Views/IO/Text/index.tsx#L54">Developer/ctoUI/src/Views/IO/Text/index.tsx:54</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -176,13 +210,13 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_views_view_.view.html">View</a>.<a href="_views_view_.view.html#value">value</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/arguiot/ctoUI/blob/14d5d37/src/Views/IO/Text/index.tsx#L39">Developer/ctoUI/src/Views/IO/Text/index.tsx:39</a></li>
+									<li>Defined in <a href="https://github.com/arguiot/ctoUI/blob/de02368/src/Views/IO/Text/index.tsx#L57">Developer/ctoUI/src/Views/IO/Text/index.tsx:57</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>_val: <span class="tsd-signature-type">any</span></h5>
+									<h5>val: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -196,7 +230,7 @@
 					<a name="render" class="tsd-anchor"></a>
 					<h3>render</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">render<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span></li>
+						<li class="tsd-signature tsd-kind-icon">render<span class="tsd-signature-symbol">(</span>parent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -204,32 +238,33 @@
 								<p>Implementation of <a href="../interfaces/_views_view_.viewtype.html">ViewType</a>.<a href="../interfaces/_views_view_.viewtype.html#render">render</a></p>
 								<p>Overrides <a href="_views_view_.view.html">View</a>.<a href="_views_view_.view.html#render">render</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/arguiot/ctoUI/blob/14d5d37/src/Views/IO/Text/index.tsx#L13">Developer/ctoUI/src/Views/IO/Text/index.tsx:13</a></li>
+									<li>Defined in <a href="https://github.com/arguiot/ctoUI/blob/de02368/src/Views/IO/Text/index.tsx#L16">Developer/ctoUI/src/Views/IO/Text/index.tsx:16</a></li>
 								</ul>
 							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>parent: <span class="tsd-signature-type">HTMLElement</span></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Element</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="requestupdate" class="tsd-anchor"></a>
 					<h3>request<wbr>Update</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon">request<wbr>Update<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_views_view_.view.html">View</a>.<a href="_views_view_.view.html#requestupdate">requestUpdate</a></p>
+								<p>Overrides <a href="_views_view_.view.html">View</a>.<a href="_views_view_.view.html#requestupdate">requestUpdate</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/arguiot/ctoUI/blob/14d5d37/src/Views/View.ts#L73">Developer/ctoUI/src/Views/View.ts:73</a></li>
+									<li>Defined in <a href="https://github.com/arguiot/ctoUI/blob/de02368/src/Views/IO/Text/index.tsx#L46">Developer/ctoUI/src/Views/IO/Text/index.tsx:46</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>When your view changes, ask for an update, this will update all other views impacted.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -238,7 +273,7 @@
 					<a name="update" class="tsd-anchor"></a>
 					<h3>update</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span>, state<span class="tsd-signature-symbol">: </span><a href="../interfaces/_configuration_.configuration.html" class="tsd-signature-type">Configuration</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>_state<span class="tsd-signature-symbol">: </span><a href="../interfaces/_configuration_.configuration.html" class="tsd-signature-type">Configuration</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -246,16 +281,13 @@
 								<p>Implementation of <a href="../interfaces/_views_view_.viewtype.html">ViewType</a>.<a href="../interfaces/_views_view_.viewtype.html#update">update</a></p>
 								<p>Overrides <a href="_views_view_.view.html">View</a>.<a href="_views_view_.view.html#update">update</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/arguiot/ctoUI/blob/14d5d37/src/Views/IO/Text/index.tsx#L32">Developer/ctoUI/src/Views/IO/Text/index.tsx:32</a></li>
+									<li>Defined in <a href="https://github.com/arguiot/ctoUI/blob/de02368/src/Views/IO/Text/index.tsx#L38">Developer/ctoUI/src/Views/IO/Text/index.tsx:38</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>element: <span class="tsd-signature-type">HTMLElement</span></h5>
-								</li>
-								<li>
-									<h5>state: <a href="../interfaces/_configuration_.configuration.html" class="tsd-signature-type">Configuration</a></h5>
+									<h5>_state: <a href="../interfaces/_configuration_.configuration.html" class="tsd-signature-type">Configuration</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -282,6 +314,9 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/_pluginui_.html">&quot;<wbr>PluginUI&quot;</a>
 					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_views_directionview_index_.html">&quot;<wbr>Views/<wbr>Direction<wbr>View/index&quot;</a>
+					</li>
 					<li class="current tsd-kind-module">
 						<a href="../modules/_views_io_text_index_.html">&quot;<wbr>Views/IO/<wbr>Text/index&quot;</a>
 					</li>
@@ -306,6 +341,12 @@
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_views_io_text_index_.text.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_views_io_text_index_.text.html#element" class="tsd-kind-icon">element</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="_views_io_text_index_.text.html#name" class="tsd-kind-icon">name</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_views_io_text_index_.text.html#placement" class="tsd-kind-icon">placement</a>
 							</li>
@@ -315,7 +356,7 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_views_io_text_index_.text.html#render" class="tsd-kind-icon">render</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_views_io_text_index_.text.html#requestupdate" class="tsd-kind-icon">request<wbr>Update</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
@@ -353,7 +394,7 @@
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
 			</ul>
 		</div>
 	</div>

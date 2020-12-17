@@ -2,7 +2,7 @@ import {
     Direction,
     PluginUI, Text,
 } from "../../dist/index";
-import "../../dist/ctoui.cjs.production.min.css";
+import "../../dist/ctoui.cjs.development.css";
 
 class Algo {
     constructor(bindings) {
@@ -85,7 +85,7 @@ const plugin = new PluginUI(Algo, {
     output: Text,
     direction: Direction.Both,
     options: {},
-    parent: window.document.body,
+    parent: window.document.querySelector(".plugin"),
 })
 
 plugin.render(window)
