@@ -27,7 +27,7 @@
     "singleQuote": false,
     "trailingComma": "es5"
   },
-  "name": "ctoui",
+  "name": "@cryptool/cto-ui",
   "author": "Arthur Guiot",
   "module": "dist/ctoui.esm.js",
   "size-limit": [

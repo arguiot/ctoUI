@@ -1,0 +1,17 @@
+{
+  "name": "docs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Arthur Guiot",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev"
+  },
+  "dependencies": {
+    "next": "^10.0.3",
+    "nextra": "^0.3.2",
+    "nextra-theme-docs": "^1.0.2",
+    "react": "16",
+    "react-dom": "16"
+  }
+}

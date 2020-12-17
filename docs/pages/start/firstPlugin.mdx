@@ -1,0 +1,75 @@
+import Callout from 'nextra-theme-docs/callout'
+
+# Create your first plugin
+In this guide you will learn how to create your first plugin. You'll see, it's actually very easy!
+
+## The algorithm
+Let's start with the main piece of your plugin: the algorithm. This is the very reason of your plugin. So we've tried to make your life as easy as possible by proposing a very simple model to implement your code: nothing. That's right! You make your own algorithm, so why impose a particular structure?
+
+Once you have your algorithm, you'll have to explain to CTO UI how it works. To do this, you need to create a class that we'll call "Algorithm" (although you can name it whatever you want).
+
+```js highlight=5,13,21
+class Algorithm {
+    /**
+     * You need to implement a constructor that will store the bindings. This way, you will be able to access them later.
+     */
+    constructor(bindings) {
+        this.bindings = bindings;
+    }
+    /**
+     * Create an encode method that must set the output by itself. You do this by accessing `output.value` in your bindings.
+     * 
+     * This way, we can ensure that only the ouput is re-rendered.
+     */
+    encode() {
+        this.bindings.output.value = yourEncodeMethod(this.bindings.input.value) // Access the input value from the bindings
+    }
+    /**
+     * (Optional, only if you want to encode and decode)
+     * 
+     * Same thing as the encode method but this time you need to set the input.
+     */
+    decode() {
+        this.bindings.input.value = yourDecodeMethod(this.bindings.input.value)
+    }
+}
+```
+
+## Configuration
+CTO UI needs a configuration object to understand how you want your plugin to work. This is where you will be able to customize almost everything.
+
+The configuration object is organized in a simple way: each key is associated with a view. And these views are organized in the order you specified (i.e. the first element in the configuration object will appear first in the page). You will also need to define a `parent` entry that represents where the plugin should be rendered.
+
+CTO UI already has pre-designed components that you can use.
+
+```js highlight=4,10
+import {
+    IO,
+    Direction
+} from "@cryptool/cto-ui"; // Make sure to import the components from the package
+
+const configuration = {
+    input: IO.Text,
+    direction: Direction.Both,
+    output: IO.Text,
+    parent: window.document.querySelector(".plugin") // Where the plugin will be rendered. Not an actual view.
+}
+```
+<Callout emoji="✅">
+  If you're using CTO UI's template, the parent entry will be `window.document.querySelector(".plugin")`. This is because each plugin must provide an entry HTML file in CTO. The template includes this HTML file for you. Otherwise, if you want to use a custom HTML file, make sure to select the correct element.
+  > Also, make sure that the element is empty otherwise its content will be cleared at render time.
+</Callout>
+
+## Rendering
+CTO UI exports a main object responsible for rendering and updating your plugin: `PluginUI`. This object has a `render' method that will be used to generate the interface.
+
+PluginUI is compatible with server rendering (with jsDOM), so it is necessary to tell it the context it is in, taking care to add `window` as an argument to `.render()`.
+
+So in the end you should write:
+```js
+import { PluginUI } from "@cryptool/cto-ui"; // Make sure to import from the package
+
+const plugin = new PluginUI(Algorithm, configuration)
+
+plugin.render(window)
+```
