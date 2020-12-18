@@ -1,7 +1,6 @@
 import { DirectionList } from "../../../Direction/DirectionList";
 import { Placement, PlacementType } from "../../Placement";
 import { View } from "../../View";
-import { Notification, NotificationCenter } from "@arguiot/broadcast.js";
 import { Configuration } from "../../../Configuration";
 
 export class Text extends View {
@@ -23,7 +22,7 @@ export class Text extends View {
           rows={4}
           className="form-control"
           onInput={() => {
-            this.requestUpdate();
+            this.requestUpdate(this.name == "input" ? DirectionList.InputToOutput : DirectionList.OutputToInput);
           }}
         >
           Input
@@ -41,14 +40,6 @@ export class Text extends View {
         "#field-len"
       )!.innerHTML = `length: ${this.value.length}`;
     }
-  }
-
-  requestUpdate() {
-    const request = new Notification(
-      "requestRender",
-      this.name == "input" ? DirectionList.InputToOutput : DirectionList.OutputToInput
-    );
-    NotificationCenter.default.post(request);
   }
 
   get value() {

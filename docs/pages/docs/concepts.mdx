@@ -1,0 +1,37 @@
+import Callout from 'nextra-theme-docs/callout'
+
+# Concepts
+CTO UI is the application architecture framework that CrypTool uses to create and maintain its plugins on CrypTool Online. It renders composable view components by utilizing a unidirectional data flow.
+
+CTO UI adopts a three-part architecture: dispatcher, status, and views. This architecture should not be confused with the Model-View-Controller (MVC) architecture. The dispatcher relies on [BroadcastJS](https://github.com/arguiot/BroadcastJS) to work, a simple notification dispatch mechanism that enables the broadcast of information to registered observers within the plugin.
+
+<Callout emoji="💡">
+    In fact, there are no controllers in CTO UI, not even the `PluginUI` class which only takes care of initializing and positioning the views. Each view can update itself, update the other views and access the global status when an update is performed.
+</Callout>
+
+CTO UI eschews MVC in favor of a unidirectional data flow. When a user interacts with a view, the view propagates an action through the central dispatcher, to the various stores that hold the application's data and business logic, which updates all of the views that are affected.
+
+## Structure and Data flow
+Data in a CTO UI plugin flows in a single direction:
+![Flow Direction](/flowDirection.png)
+
+The dispatcher, stores and views are independent nodes with distinct inputs and outputs. The actions are simple objects containing the new data and an identifying type property.
+
+The views may cause a new action to be propagated through the system in response to user interactions by triggering the `requestUpdate` method:
+![Update Request](/updateRequest.png)
+
+All data is sent through the dispatcher, which is a coordination center. The actions are provided to the dispatcher via a [BroadcastJS Notification](https://github.com/arguiot/BroadcastJS#notification): `"requestRender"`. And most often come from user interactions with the views. A simple way to send this `Notification` is to use `requestUpdate` in the view. The dispatcher then invokes the update method in the views by passing the global status as an argument. This way, views can update in real time during thatch actions.
+
+This structure allows us to reason easily about our application in a way that is reminiscent of *functional reactive programming*, or more specifically *data-flow programming* or *flow-based programming*, where data flows through the application in a single direction — there are no two-way bindings. Application state is maintained in one place, allowing the different parts of the application to remain highly decoupled. This allow components to talk to each other in a very efficient way, leading to fewer bugs.
+
+### Where is the algorithm involved?
+The algorithm is run by the dispatcher for every update request. This ensures that the output/input always reflect the correct value. The direction is set when an update is requested from the input or the output and stays the same until it is specifically asked to change. That way you can perform update requests without caring about the direction.
+![Algorithm](/algorithm.png)
+
+## State and bindings
+The way CTO UI handle the state of the application is related to where  the state actually is. This might sound obvious, but the source of truth is always the DOM. Other systems like React tends to have an internal state and try to reflect this state on the DOM. And when it’s not done well, the application might enter a weird state where the DOM and the internal aren’t synchronized.
+
+To fix the problem, CTO UI doesn’t have an internal state. Each views needs to have a getter and a setter on the `value` property which must retrieve and update the DOM state. For example, the `IO.Text` has a `<textarea>` element where the user can write. So, when getting the `value` property, it should return the text written inside the `<textarea>`, and when you set the `value` property it should update the text written in that `<textarea>`
+
+### What about the state given to the `update` method or to the algorithm?
+Well, the `state` object isn’t really a state object but an object containing the bindings to the views. That’s why you always need to use the `value` property on each entry. This way we can make sure that the UI always reflects the actual state of the application.

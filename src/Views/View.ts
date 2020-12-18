@@ -1,6 +1,7 @@
 import { Configuration } from "../Configuration";
 import { Placement, PlacementType } from "./Placement";
 import { Notification, NotificationCenter } from "@arguiot/broadcast.js";
+import { DirectionList } from "../Direction/DirectionList";
 
 /**
  * View protocol.
@@ -70,8 +71,8 @@ export abstract class View implements ViewType {
   /**
    * When your view changes, ask for an update, this will update all other views impacted.
    */
-  requestUpdate() {
-    const request = new Notification("requestRender");
+  requestUpdate(direction?: DirectionList) {
+    const request = new Notification("requestRender", direction);
     NotificationCenter.default.post(request);
   }
 }
