@@ -1,4 +1,4 @@
-import { Direction } from "../../../Directions";
+import { DirectionList } from "../../../Direction/DirectionList";
 import { Placement, PlacementType } from "../../Placement";
 import { View } from "../../View";
 import { Notification, NotificationCenter } from "@arguiot/broadcast.js";
@@ -46,7 +46,7 @@ export class Text extends View {
   requestUpdate() {
     const request = new Notification(
       "requestRender",
-      this.name == "input" ? Direction.InputToOutput : Direction.OutputToInput
+      this.name == "input" ? DirectionList.InputToOutput : DirectionList.OutputToInput
     );
     NotificationCenter.default.post(request);
   }

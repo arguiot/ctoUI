@@ -1,17 +1,19 @@
 import { Configuration } from "../../Configuration";
 import { Placement, PlacementType } from "../Placement";
 import { View } from "../View";
-import { Direction } from "../../Directions";
+import { DirectionList } from "../../Direction/DirectionList";
 import "./DirectionView.scss";
 
 export class DirectionView extends View {
 	placement: PlacementType;
 	element?: HTMLElement;
 	value: void;
+	direction: DirectionList
 
-	constructor(name: string) {
+	constructor(name: string, direction: DirectionList) {
 		super(name);
 		this.placement = Placement.Direction;
+		this.direction = direction
 	}
 
 	render(parent: HTMLElement) {
@@ -29,7 +31,7 @@ export class DirectionView extends View {
 	update(state: Configuration) {
 		if (this.element) {
 			(this.element.querySelector("#direction")! as any)
-				.style.transform = state.currentDirection == Direction.OutputToInput ? "rotate(180deg)" : "unset";
+				.style.transform = state.currentDirection == DirectionList.OutputToInput ? "rotate(180deg)" : "unset";
 		}
 	}
 }

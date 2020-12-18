@@ -2,8 +2,7 @@ import { Configuration, ConfigurationInitiator } from "./Configuration";
 import { Algorithm } from "./Algorithm";
 import { render, ViewType } from "./Views/View";
 import { NotificationCenter } from "@arguiot/broadcast.js";
-import { Direction } from "./Directions";
-import { DirectionView } from "./Views/DirectionView";
+import { DirectionList } from "./Direction/DirectionList";
 
 /**
  * Creates and manages the plugin lifecycle
@@ -34,7 +33,7 @@ export class PluginUI {
     this.configuration = this.configure(config);
     this.algorithm = new algorithm(this.configuration);
     this.parent = config.parent;
-    this.direction = Direction.InputToOutput;
+    this.direction = DirectionList.InputToOutput;
 
     NotificationCenter.default.addObserver(
       "requestRender",
@@ -43,31 +42,23 @@ export class PluginUI {
   }
 
   configure(config: ConfigurationInitiator) {
-    this.directionView = new DirectionView("direction")
-    return {
-      input: new config.input("input"),
-      output: new config.output("output"),
-      direction: config.direction,
-      options: Object.fromEntries(
-        Object.entries(config.options).map(entry => {
-          const view = new entry[1](entry[0]);
-          return [entry[0], view];
-        })
-      ),
-    };
+    return Object.fromEntries(
+      Object.entries(config)
+      .filter(entry => entry[0] != "parent")
+      .map(entry => {
+        const func = entry[1] as new (name: string) => ViewType
+        const view = new func(entry[0]);
+        return [entry[0], view];
+      })
+    )
   }
-
-  directionView?: ViewType;
 
   render(windowObject: any) {
     this.parent.innerHTML = "" // Make sure the container is empty
     
-    const views = [
-      ["input", this.configuration.input],
-      ["direction", this.directionView!],
-      ["output", this.configuration.output],
-      ...Object.entries(this.configuration.options),
-    ];
+    const views = Object.entries(this.configuration)
+    .filter(entry => entry[0] != "currentDirection")
+
     views.forEach(view => {
       let doc: Document;
       if (__DEV__ && typeof window != "undefined") {
@@ -86,30 +77,27 @@ export class PluginUI {
     this.dispatchUpdate(); // Hydration
   }
 
-  direction: Direction;
+  direction: DirectionList;
 
-  dispatchUpdate(from?: Direction) {
+  dispatchUpdate(from?: DirectionList) {
     if (typeof from != "undefined") {
       this.direction = from;
     }
 
     switch (this.direction) {
-      case Direction.InputToOutput:
+      case DirectionList.InputToOutput:
         this.algorithm.encode();
         break;
-      case Direction.OutputToInput:
+      case DirectionList.OutputToInput:
         if (this.algorithm.decode) {
           this.algorithm.decode();
         }
         break;
     }
 
-    const views = [
-      this.configuration.input,
-      this.directionView!,
-      this.configuration.output,
-      ...Object.values(this.configuration.options),
-    ];
+    const filter = (obj: object, predicate: (array: Array<any>) => Boolean) => Object.fromEntries(Object.entries(obj).filter(predicate));
+
+    const views = Object.values(filter(this.configuration, (entry) => entry[0] != "currentDirection")) as Array<ViewType>
 
     views.forEach(view => {
       if (view.update) {

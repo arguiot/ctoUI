@@ -3,7 +3,7 @@ import {
   Algorithm,
   PluginUI,
   Configuration,
-  Text,
+  IO,
   Direction,
 } from "../dist/index";
 
@@ -21,11 +21,10 @@ describe("Render Input", () => {
     const { window } = new JSDOM();
 
     const plugin = new PluginUI(Algo, {
-      input: Text,
-      output: Text,
-      direction: Direction.Unidirectional,
-      options: {},
-      parent: window.document.body,
+        input: IO.Text,
+        direction: Direction.Both,
+        output: IO.Text,
+        parent: window.document.body,
     });
 
     plugin.render(window);
