@@ -1,26 +1,42 @@
 import path from "path";
-import Parcel from "parcel-bundler";
+import Parcel from "@parcel/core";
+import fs from "fs"
+import prependFile from "prepend-file"
+export default async function build(entry = "index.js") {
+    fs.rmSync(path.join(process.cwd(), "dist"), {
+        recursive: true,
+        force: true
+    });
 
-export default async function build(entry = "index.html") {
-    
     process.env.NODE_ENV = "production"
 
-    const entryFile = path.join(process.cwd(), entry)
+    fs.copyFileSync(path.join(__dirname, "build.html"), path.join(process.cwd(), "index.html"))
+
+    const entryFile = path.join(process.cwd(), "index.html")
     const options = {
-        outDir: './dist', // The out directory to put the build files in, defaults to dist
-        outFile: 'fragment.html', // The name of the outputFile
-        watch: false, // Whether to watch the files and rebuild them on change, defaults to process.env.NODE_ENV !== 'production'
-        cache: false, // Enabled or disables caching, defaults to true
-        contentHash: false, // Disable content hash from being included on the filename
-        minify: true, // Minify files, enabled if process.env.NODE_ENV === 'production'
-        scopeHoist: true, // Turn on experimental scope hoisting/tree shaking flag, for smaller production bundles
-        target: 'browser', // Browser/node/electron, defaults to browser
-        sourceMaps: true, // Enable or disable sourcemaps, defaults to enabled (minified builds currently always create sourcemaps)
-        detailedReport: true, // Prints a detailed report of the bundles, assets, filesizes and times, defaults to false, reports are only printed if watch is disabled
-        autoInstall: true, // Enable or disable auto install of missing dependencies found during bundling
+        entries: entryFile,
+        distDir: path.join(process.cwd(), "dist"),
+        defaultConfig: require.resolve("@parcel/config-default"),
+        defaultEngines: {
+            browsers: [">0.2%"],
+        },
+        patchConsole: false,
+        sourceMaps: true,
+        scopeHoist: true,
+        autoinstall: true,
+        mode: "production"
     }
 
-    const bundler = new Parcel(entryFile, options);
+    const bundler = new Parcel(options);
+    
+    const build = await bundler.run();
 
-    await bundler.bundle();
+    build.bundleGraph
+    .getBundles()
+    .filter(e => e.name.slice(-2) == "js")
+    .forEach(async file => {
+        await prependFile(file.filePath, "globalThis.require=()=>{throw new Error(\"Calls to `require` from umd module definitions are not supported\")};") // Fix Parcel scopehoist issue
+    })
+
+    fs.rmSync(path.join(process.cwd(), "index.html"));
 }

@@ -1,8 +1,10 @@
 import path from "path";
 import Parcel from "parcel-bundler";
 import fs from "fs"
+import kleur from 'kleur';
+const app = require('express')();
 
-export default async function serve(entry = "index.html") {
+export default async function serve(entry = "index.js") {
     const entryFile = path.join(process.cwd(), entry)
     const options = {
         outDir: './dist', // The out directory to put the build files in, defaults to dist
@@ -19,14 +21,26 @@ export default async function serve(entry = "index.html") {
 
     const bundler = new Parcel(entryFile, options);
 
+    console.log(`${kleur.bold().white("Server listening:")} ${kleur.bold().cyan("http://localhost:1234/")}`)
+
     process.on("SIGINT", () => {
         console.log("Clean up...")
         
-        fs.rmdirSync(path.join(process.cwd(), "dist"), { recursive: true });
-        fs.rmdirSync(path.join(process.cwd(), ".cache"), { recursive: true });
+        fs.rmSync(path.join(process.cwd(), "dist"), { recursive: true, force: true });
+        fs.rmSync(path.join(process.cwd(), ".cache"), { recursive: true, force: true });
 
         process.exit();
     })
 
-    await bundler.serve();
+    app.set('view engine', 'html');
+    app.engine('html', require('hbs').__express);
+    app.set('views', __dirname);
+
+    app.use(bundler.middleware())
+
+    app.get("/", (req, res) => {
+        res.render("live")
+    })
+
+    app.listen(1234)
 }

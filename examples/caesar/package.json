@@ -1,0 +1,10 @@
+{
+  "name": "caesar",
+  "version": "1.0.0",
+  "main": "dist/index.html",
+  "author": "Arthur Guiot",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.12.10"
+  }
+}
