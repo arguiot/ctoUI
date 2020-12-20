@@ -3,7 +3,36 @@ import Callout from 'nextra-theme-docs/callout'
 # Create your first plugin
 In this guide you will learn how to create your first plugin. You'll see, it's actually very easy!
 
-## The algorithm
+## Installation
+With CTO UI, you can quickly bootstrap a new CTO plugin in seconds, instead of hours. Open up Terminal and enter:
+- First let's install the CLI
+```sh
+npm install -g @cryptool/cto-ui
+```
+- Then let's create an new project.
+```sh
+ctoui create
+```
+Once that's done, you're ready-to-rock! A new project has been created with everything you need to start working on your first plugin.
+### Useful commands
+Below is a list of commands you will probably find useful:
+#### `ctoui serve`
+Runs the project in development/watch mode. Your project will be rebuilt upon changes. CTO UI will create a development server where you'll be able to preview and debug your work.
+
+Besides the hosting of the assets, we also start a Hot Module Reload server which is a websocket that listens to build events and reloads a script, style or your entire page depending on what changed. This is super useful as you no longer have to wait for the build to complete and manually refresh the page. Unfortunately, it might not be 100% stable so sometimes you might have to refresh the page yourself.
+
+It also ensures all used libraries and frameworks are built in development mode, meaning you will get additional debug information if they provide any.
+#### `ctoui build`
+The production build command `ctoui build` does exactly what it says it does, which is building your plugin.
+
+It creates production-ready bundles that contain very little to no unused and development code, ensuring your end-user gets fast load times. We achieve this by telling frameworks and libraries we're building for production by setting the `process.env.NODE_ENV` variable to `production`.
+
+We also run a **minifier** over most assets to ensure code is as minimal as it can and do **scope hoisting** on all the JavaScript bundles to ensure as little unused code as possible ends up in the JavaScript bundles.
+
+These bundles are also named in such a way that any non-html assets can be cached safely by a CDN for a very long time without any user ever having an incorrect or outdated bundle as the name includes a hash of the final bundle content.
+## Plugin creation
+Now, let's create our first plugin! The first we'll want to do is open the `index.js` in the code editor of our choice. This is where we'll create our plugin. If you plan to create a basic plugin, you can keep all of your code in this file, but if you plan making something bigger, consider splitting your code into smaller pieces and use `import`/`export` to link everything together.
+### The algorithm
 Let's start with the main piece of your plugin: the algorithm. This is the very reason of your plugin. So we've tried to make your life as easy as possible by proposing a very simple model to implement your code: nothing. That's right! You make your own algorithm, so why impose a particular structure?
 
 Once you have your algorithm, you'll have to explain to CTO UI how it works. To do this, you need to create a class that we'll call "Algorithm" (although you can name it whatever you want).
