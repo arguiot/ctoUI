@@ -2,7 +2,15 @@ import path from "path";
 import Parcel from "@parcel/core";
 import fs from "fs"
 import prependFile from "prepend-file"
+import Handlebars from "handlebars"
+import Table from 'cli-table';
+import filesize from "filesize"
+import kleur from "kleur"
+import ora from "ora";
+
 export default async function build(entry = "index.js") {
+    const spinner = ora('Cleaning previous dist directory').start();
+
     fs.rmSync(path.join(process.cwd(), "dist"), {
         recursive: true,
         force: true
@@ -10,7 +18,14 @@ export default async function build(entry = "index.js") {
 
     process.env.NODE_ENV = "production"
 
-    fs.copyFileSync(path.join(__dirname, "build.html"), path.join(process.cwd(), "index.html"))
+    spinner.text = 'Creating HTML fragment';
+
+    const file = fs.readFileSync(path.join(__dirname, "build.html")).toString()
+    const template = Handlebars.compile(file)
+
+    fs.writeFileSync(path.join(process.cwd(), "index.html"), template({
+        entry
+    }))
 
     const entryFile = path.join(process.cwd(), "index.html")
     const options = {
@@ -24,8 +39,11 @@ export default async function build(entry = "index.js") {
         sourceMaps: true,
         scopeHoist: true,
         autoinstall: true,
+        logLevel: "warn",
         mode: "production"
     }
+
+    spinner.text = 'Creating and optimizing bundle';
 
     const bundler = new Parcel(options);
     
@@ -39,4 +57,30 @@ export default async function build(entry = "index.js") {
     })
 
     fs.rmSync(path.join(process.cwd(), "index.html"));
+
+    spinner.succeed("Successfully created bundle")
+
+    // Print build summary
+    const table = new Table({
+        head: ['File name', 'Size', 'Build duration']
+    });
+
+    function prettifyTime(timeInMs) {
+        return timeInMs < 1000 ? `${timeInMs}ms` : `${(timeInMs / 1000).toFixed(2)}s`;
+    }
+
+    build.bundleGraph
+    .getBundles()
+    .filter(e => e.name.slice(-4) != "html")
+    .forEach(file => {
+        const dir = path.relative(process.cwd(), path.dirname(file.filePath));
+        const { size, time } = file.stats
+        table.push([
+            (kleur.dim(dir + (dir ? path.sep : '')) + kleur.reset(path.basename(file.filePath))),
+            kleur.bold().yellow(filesize(size)),
+            kleur.white(prettifyTime(time))
+        ])
+    })
+
+    console.log(table.toString())
 }

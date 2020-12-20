@@ -39,7 +39,10 @@ export default async function serve(entry = "index.js") {
     app.use(bundler.middleware())
 
     app.get("/", (req, res) => {
-        res.render("live")
+        res.render("live", {
+            entry,
+            entryCSS: entry.split(".")[0]
+        })
     })
 
     app.listen(1234)
