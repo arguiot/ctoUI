@@ -77,17 +77,19 @@ export abstract class View implements ViewType {
 	}
 }
 
+interface RenderArguments {
+	element: JSX.Element;
+	container: HTMLElement;
+	binder: ViewType;
+	useNS?: string;
+}
+
 /**
  * Renders JSX without React
  * @param element Any JSX element
  * @param container The HTML element you want to render your component in
  */
-export function render(
-	element: JSX.Element,
-	container: HTMLElement,
-	binder: ViewType,
-	useNS ? : string
-) {
+export function render({ element, container, binder, useNS }: RenderArguments) {
 	const isNS = typeof element.props != "undefined" ? useNS || element.props["xmlns"] : useNS
 	const dom = isNS ? container.ownerDocument.createElementNS(isNS, element.type) : container.ownerDocument.createElement(element.type);
 
@@ -126,11 +128,11 @@ export function render(
 				if (typeof child == "string") {
 					(dom as HTMLElement).innerHTML += child;
 				} else {
-					render(child, dom, binder, isNS)
+					render({ element: child, container: dom, binder, useNS: isNS })
 				}
 			});
 		} else if (typeof element.props.children == "object") {
-			render(element.props.children as JSX.Element, dom, binder, isNS)
+			render({ element: (element.props.children as JSX.Element), container: dom, binder, useNS: isNS })
 		} else if (typeof element.props.children == "string") {
 			(dom as HTMLElement).innerHTML = element.props.children;
 		}

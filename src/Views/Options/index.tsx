@@ -13,10 +13,13 @@ class OptionsClass extends View {
         this.value = this.configure(options)
     }
 
-    configure(views: OptionsInitiator) {
+    configure(views: OptionsInitiator): OptionsViews {
         return Object.fromEntries(
             Object.entries(views)
             .map(entry => {
+                if (typeof entry[1] == "object") {
+                    return [entry[0], this.configure(entry[1])]
+                }
                 const func = entry[1]
                 const view = new func(entry[0]);
                 return [entry[0], view];
@@ -36,12 +39,16 @@ class OptionsClass extends View {
         const setTab = (event: any) => {
             event.preventDefault()
 
-            parent.querySelectorAll(".tab-pane").forEach(el => el.classList.remove("active"))
-            parent.querySelectorAll(".nav-link").forEach(el => el.classList.remove("active"))
+            const tabs = parent.querySelectorAll(".tab-pane")
+            tabs.forEach(el => el.classList.remove("active"));
+
+            const links = parent.querySelectorAll(".nav-link")
+            links.forEach(el => el.classList.remove("active"));
+
+            (event.currentTarget as any).classList.add("active")
 
             const selector = (event.currentTarget as any).hash
             parent.querySelector(selector)?.classList.add("active")
-            parent.querySelector(`.nav-link[aria-controls=${selector.slice(1)}]`)?.classList.add("active")
         }
         return (
             <div className="card">
@@ -49,7 +56,7 @@ class OptionsClass extends View {
                     <ul className="nav nav-tabs card-header-tabs" id="cmdOptions" role="tablist">
                         {
                             Object.keys(this.value).map((key, index) => <li className="nav-item" key={key}>
-                                <a className={`nav-link ${index == 0 ? "active" : ""}`} href={ `#${encodeURIComponent(key)}` } role="tab" aria-controls={ encodeURIComponent(key) } onClick={ setTab }>
+                                <a className={`nav-link ${index == 0 ? "active" : ""}`} href={ `#${encodeURIComponent(key)}` } role="tab" onClick={ setTab }>
                                     <i className="fa fa-cog mr-2"/>
                                     { titleCase(key) }
                                 </a>
@@ -60,10 +67,16 @@ class OptionsClass extends View {
                 <div className="card-body">
                     <div className="tab-content p-0">
                         {
-                            Object.keys(this.value).map((key, index) => <div className={`tab-pane ${index == 0 ? "active" : ""}`} id={ encodeURIComponent(key) } role="tabpanel" aria-labelledby={ `${encodeURIComponent(key)}-tab` } key={key}>
+                            Object.keys(this.value).map((key, index) => <div className={`tab-pane ${index == 0 ? "active" : ""}`} id={ encodeURIComponent(key) } role="tabpanel" key={key}>
                                 <p className="card-text" ref={el => {
                                     if (el != null) {
-                                        render(this.value[key].render(el), el, this.value[key])
+                                        if (this.value[key] instanceof View) {
+                                            const view = this.value[key] as ViewType
+                                            render({ element: view.render(el), container: el, binder: view })
+                                        } else {
+                                            const values = Object.values(this.value[key]) as Array<ViewType>
+                                            values.forEach(val => render({ element: val.render(el), container: el, binder: val }))
+                                        }
                                     }
                                 }}></p>
                             </div>)
@@ -75,11 +88,20 @@ class OptionsClass extends View {
     }
 }
 
-interface OptionsViews {
+interface FinalOptionsViews {
     [key: string]: ViewType
 }
-interface OptionsInitiator {
+
+interface OptionsViews {
+    [key: string]: ViewType | FinalOptionsViews
+}
+
+interface FinalOptionsInitiator {
     [key: string]: (new(name: string) => ViewType)
+}
+
+interface OptionsInitiator {
+    [key: string]: (new(name: string) => ViewType) | FinalOptionsInitiator
 }
 
 export function Options(options: OptionsInitiator) {

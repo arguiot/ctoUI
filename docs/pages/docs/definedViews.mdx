@@ -1,0 +1,28 @@
+# Standard Components
+CTO UI already comes with predefined components so you don't have to reinvent the wheel every time! You will find here a list of these components and a note on how they work.
+
+## Input / Output
+CTO UI makes your life easy by offering a component system specifically designed for plug-ins requiring only one input and one output. All of theses components can be accessed by importing the `IO` object.
+### `IO.Text`
+As its name suggests, it allows you to have a text area for your plugin. Moreover, depending on whether you name it `input` or `output`, it will affect the direction arrow (which must be in the middle).
+
+## Composable views
+Unlike HTML, CTO UI allows only a shallow description of the desired UI. To create nested views and create a hierarchy, you will need to use composable views. Composable views are normal views that accept other views as arguments.
+
+As they are normal views, you will be able to access the subviews via the `value` property.
+### `Options`
+The `Options` view allows you to create a tabbed fieldset with individual or multiple views inside.
+
+Example:
+```js
+{
+    // Other views
+    options: Options({
+        name: AnyView, // Will create a new tab and place `AnyView` inside.
+        otherName: {
+            sub1: AnyView, // Will create a new tab and place the two views inside.
+            sub2: AnyView
+        }
+    })
+}
+```

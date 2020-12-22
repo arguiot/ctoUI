@@ -71,7 +71,7 @@ export class PluginUI {
       this.parent.appendChild(container);
 
       const element = (view[1] as ViewType).render(container, windowObject);
-      render(element, container, view[1] as ViewType);
+      render({ element, container, binder: (view[1] as ViewType) });
     });
 
     this.dispatchUpdate(); // Hydration

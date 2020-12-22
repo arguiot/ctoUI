@@ -82,7 +82,10 @@ class Algo {
 
 const plugin = new PluginUI(Algo, {
     options: Options({
-        value: IO.Text,
+        value: {
+            name: IO.Text,
+            sub2: IO.Text
+        },
         test: IO.Text
     }),
     input: IO.Text,
