@@ -70,7 +70,7 @@ export class PluginUI {
       container.className = view[0] as string;
       this.parent.appendChild(container);
 
-      const element = (view[1] as ViewType).render(container);
+      const element = (view[1] as ViewType).render(container, windowObject);
       render(element, container, view[1] as ViewType);
     });
 

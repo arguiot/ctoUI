@@ -1,6 +1,6 @@
 import {
     Direction,
-    PluginUI, IO,
+    PluginUI, IO, Options
 } from "../../dist/index";
 import "../../dist/cto-ui.cjs.development.css";
 
@@ -81,6 +81,9 @@ class Algo {
 }
 
 const plugin = new PluginUI(Algo, {
+    options: Options({
+        value: IO.Text
+    }),
     input: IO.Text,
     direction: Direction.Both,
     output: IO.Text,

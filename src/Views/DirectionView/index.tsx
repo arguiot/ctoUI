@@ -1,18 +1,15 @@
 import { Configuration } from "../../Configuration";
-import { Placement, PlacementType } from "../Placement";
 import { View } from "../View";
 import { DirectionList } from "../../Direction/DirectionList";
 import "./DirectionView.scss";
 
 export class DirectionView extends View {
-	placement: PlacementType;
 	element?: HTMLElement;
 	value: void;
 	direction: DirectionList
 
 	constructor(name: string, direction: DirectionList) {
 		super(name);
-		this.placement = Placement.Direction;
 		this.direction = direction
 	}
 

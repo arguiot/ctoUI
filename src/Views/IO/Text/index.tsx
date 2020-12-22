@@ -1,15 +1,12 @@
 import { DirectionList } from "../../../Direction/DirectionList";
-import { Placement, PlacementType } from "../../Placement";
 import { View } from "../../View";
 import { Configuration } from "../../../Configuration";
 
 export class Text extends View {
-  placement: PlacementType;
   element?: HTMLElement;
 
   constructor(name: string) {
     super(name);
-    this.placement = this.name == "input" ? Placement.Input : Placement.Output;
   }
 
   render(parent: HTMLElement) {
