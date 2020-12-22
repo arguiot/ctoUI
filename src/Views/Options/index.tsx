@@ -33,16 +33,26 @@ class OptionsClass extends View {
 
             return result
         }
+        const setTab = (event: any) => {
+            event.preventDefault()
 
+            parent.querySelectorAll(".tab-pane").forEach(el => el.classList.remove("active"))
+            parent.querySelectorAll(".nav-link").forEach(el => el.classList.remove("active"))
+
+            const selector = (event.currentTarget as any).hash
+            parent.querySelector(selector)?.classList.add("active")
+            parent.querySelector(`.nav-link[aria-controls=${selector.slice(1)}]`)?.classList.add("active")
+        }
         return (
             <div className="card">
                 <div className="card-header">
                     <ul className="nav nav-tabs card-header-tabs" id="cmdOptions" role="tablist">
                         {
-                            Object.keys(this.value).map(key => <li className="nav-item" key={key}>
-                                <a className="nav-link active" href={ `#${encodeURIComponent(key)}` } role="tab" aria-controls={ encodeURIComponent(key) }
-                                    aria-selected="true"><i
-                                        className="fa fa-cog mr-2" />{ titleCase(key) }</a>
+                            Object.keys(this.value).map((key, index) => <li className="nav-item" key={key}>
+                                <a className={`nav-link ${index == 0 ? "active" : ""}`} href={ `#${encodeURIComponent(key)}` } role="tab" aria-controls={ encodeURIComponent(key) } onClick={ setTab }>
+                                    <i className="fa fa-cog mr-2"/>
+                                    { titleCase(key) }
+                                </a>
                             </li>)
                         }
                     </ul>
@@ -50,7 +60,7 @@ class OptionsClass extends View {
                 <div className="card-body">
                     <div className="tab-content p-0">
                         {
-                            Object.keys(this.value).map(key => <div className="tab-pane active" id={ encodeURIComponent(key) } role="tabpanel" aria-labelledby={ `${encodeURIComponent(key)}-tab` } key={key}>
+                            Object.keys(this.value).map((key, index) => <div className={`tab-pane ${index == 0 ? "active" : ""}`} id={ encodeURIComponent(key) } role="tabpanel" aria-labelledby={ `${encodeURIComponent(key)}-tab` } key={key}>
                                 <p className="card-text" ref={el => {
                                     if (el != null) {
                                         render(this.value[key].render(el), el, this.value[key])

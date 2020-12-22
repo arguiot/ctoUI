@@ -82,7 +82,8 @@ class Algo {
 
 const plugin = new PluginUI(Algo, {
     options: Options({
-        value: IO.Text
+        value: IO.Text,
+        test: IO.Text
     }),
     input: IO.Text,
     direction: Direction.Both,
