@@ -46,13 +46,15 @@ export abstract class View implements ViewType {
 	}
 	/**
 	 * Method that will be called once, to create the HTML for the component
+	 * 
+	 * @param element The parent element where the component is.
+	 * @param windowObject The window variable. This is useful when running CTO UI in headless environment like jsDOM.
 	 */
 	abstract render(element: HTMLElement, windowObject?: any): JSX.Element;
 	/**
 	 * Method that will be called when another component requires to be updated.
 	 *
 	 * It must be very lightweight as it might be called often.
-	 * @param element The parent element where the component is.
 	 * @param state The configuration object, that acts as a state
 	 */
 	update(_state: Configuration) {} // Optional

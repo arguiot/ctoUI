@@ -1,0 +1,75 @@
+import Callout from 'nextra-theme-docs/callout'
+
+# Creating components
+Components represent the basic building block in CTO UI. They are fundamental in making it easy to build complex UIs from little building blocks. They are also responsible for managing their internal status and communicating (via the dispatcher) to other components when it changes.
+
+<Callout emoji="💡">
+    Like React, components are defined with classes, allowing to manage their own lifecycle and to communicate with other components.
+</Callout>
+
+## View protocol
+If you want to create a new component, you'll need to conform to a protocol called `View`. You do this by extending your class and defining require methods.
+
+Here's the protocol definition:
+```ts highlight=8,15,21,27
+class View {
+	/**
+	 * Method that will be called once, to create the HTML for the component
+	 * 
+	 * @param element The parent element where the component is.
+	 * @param windowObject The window variable. This is useful when running CTO UI in headless environment like jsDOM.
+	 */
+	render(element: HTMLElement, windowObject?: any): JSX.Element;
+	/**
+	 * Method that will be called when another component requires to be updated.
+	 *
+	 * It must be very lightweight as it might be called often.
+	 * @param state The configuration object, that acts as a state
+	 */
+	update(state: Configuration): void // Optional method. You don't need to provide an update method.
+	/**
+	 * Getter that must return the internal state of the component.
+	 *
+	 * In the case of a text input for example, `value` should return the `string` written inside the text field.
+	 */
+	get value(): any;
+	/**
+	 * Setter that should update the internal of the component.
+	 *
+	 * In the case of a text input for example, `value` should set the `string` written inside the text field.
+	 */
+	set value(newValue: any);
+}
+```
+## Implementing `View` (example)
+Here is an example of a very simple component that counts the number of updates happening in the plugin.
+
+> This component is useless, but it demonstrates how easy it is to create components.
+
+```js
+import { View } from "@cryptool/cto-ui"
+
+class Component extends View {
+    render() {
+        const registerElement = el => {  // When the <span> is created, its HTML element is passed into the `ref` function so we can do whatever we want with it.
+            this.nUpdates = el 
+        }
+
+        return <p>
+            Number of updates: <span ref={registerElement}>0</span>
+        </p>
+    }
+
+    update() {
+        this.value += 1 // Every view update will increment the value by one
+    }
+
+    get value() {
+        return parseInt(this.nUpdates.innerHTML)
+    }
+
+    set value(val) {
+        this.nUpdates.innerHTML = val
+    }
+}
+```

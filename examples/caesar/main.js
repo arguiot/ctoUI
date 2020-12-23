@@ -1,6 +1,6 @@
 import {
     Direction,
-    PluginUI, IO, Options
+    PluginUI, IO, Options, View
 } from "../../dist/index";
 import "../../dist/cto-ui.cjs.development.css";
 
@@ -80,14 +80,32 @@ class Algo {
     }
 }
 
+class Component extends View {
+    render() {
+        const registerElement = el => {  // When the <span> is created, its HTML element is passed into the `ref` function so we can do whatever we want with it.
+            this.nUpdates = el 
+        }
+
+        return <p>
+            Number of updates: <span ref={registerElement}>0</span>
+        </p>
+    }
+
+    update() {
+        this.value += 1 // Every view update will increment the value by one
+    }
+
+    get value() {
+        return parseInt(this.nUpdates.innerHTML)
+    }
+
+    set value(val) {
+        this.nUpdates.innerHTML = val
+    }
+}
+
 const plugin = new PluginUI(Algo, {
-    options: Options({
-        value: {
-            name: IO.Text,
-            sub2: IO.Text
-        },
-        test: IO.Text
-    }),
+    updates: Component,
     input: IO.Text,
     direction: Direction.Both,
     output: IO.Text,
