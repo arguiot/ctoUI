@@ -73,3 +73,14 @@ class Component extends View {
     }
 }
 ```
+Components uses JSX to define their HTML structure. JSX allows us to write HTML elements in JavaScript and place them in the DOM without any `createElement()` and/or `appendChild()` methods.
+
+> If you're not used to JSX, please read the follwing guide: https://reactjs.org/docs/introducing-jsx.html
+
+<Callout emoji="💡">
+    If you neeed to style your components, you can link a stylesheet by importing CSS directly in JavaScript:
+```js
+import "./styles.css";
+```
+    The only thing you need to make sure is that the CSS selectors are unique. Because of the way CTO UI compiles the plugin, it's impossible to change the selectors at build time.
+</Callout>
