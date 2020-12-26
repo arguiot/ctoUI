@@ -24,12 +24,10 @@ jobs:
 
       # - name: Lint
       #   run: yarn lint
-      - name: Link
-        run: yarn link
       - name: Test
         run: |
           yarn test --ci --maxWorkers=2
-          (cd examples/caesar && nohup ctoui serve main.js) & (cd e2e && yarn install && yarn cypress:run && curl -X "DELETE" http://localhost:1234)
+          (cd examples/caesar && nohup ../../cli/ctoui serve main.js) & (cd e2e && yarn install && yarn cypress:run && curl -X "DELETE" http://localhost:1234)
 
       - name: Build
         run: yarn build
