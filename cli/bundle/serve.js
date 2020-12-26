@@ -45,5 +45,10 @@ export default async function serve(entry = "index.js") {
         })
     })
 
-    app.listen(1234)
+    const server = app.listen(1234)
+
+    app.delete("/", (req, res) => {
+        res.end("Stopped server")
+        server.close()
+    })
 }

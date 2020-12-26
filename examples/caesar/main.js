@@ -23,7 +23,9 @@ class Algo {
                     const new_index = (index + key) % alphabet.length
                     new_character = alphabet[new_index]
                 } else {
-                    const new_index = (index - key) % alphabet.length
+                    const a = (index - key)
+                    const b = alphabet.length
+                    const new_index = ((a % b) + b) % b
                     new_character = alphabet[new_index]
                 }
             }
