@@ -27,7 +27,7 @@ jobs:
 
       - name: Test
         run: |
-          yarn test --ci --coverage --maxWorkers=2
+          yarn test --ci --maxWorkers=2
           (cd examples/caesar && nohup ctoui serve main.js) & (cd e2e && yarn cypress:run && curl -X "DELETE" http://localhost:1234)
 
       - name: Build
