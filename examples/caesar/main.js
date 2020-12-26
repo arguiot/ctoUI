@@ -1,6 +1,6 @@
 import {
     Direction,
-    PluginUI, IO, Options, View
+    PluginUI, IO, Options, View, Boolean
 } from "../../dist/index";
 import "../../dist/cto-ui.cjs.development.css";
 
@@ -105,7 +105,12 @@ class Component extends View {
 }
 
 const plugin = new PluginUI(Algo, {
-    updates: Component,
+    options: Options({
+        options: {
+            bool: Boolean,
+            test: Boolean
+        }
+    }),
     input: IO.Text,
     direction: Direction.Both,
     output: IO.Text,

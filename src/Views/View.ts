@@ -1,13 +1,6 @@
-import {
-	Configuration
-} from "../Configuration";
-import {
-	Notification,
-	NotificationCenter
-} from "@arguiot/broadcast.js";
-import {
-	DirectionList
-} from "../Direction/DirectionList";
+import { Configuration } from "../Configuration";
+import { Notification, NotificationCenter } from "@arguiot/broadcast.js";
+import { DirectionList } from "../Direction/DirectionList";
 
 /**
  * View protocol.
@@ -16,7 +9,7 @@ import {
  */
 export interface ViewType {
 	render(element: HTMLElement, windowObject?: any): JSX.Element;
-	update?(state: Configuration) : void;
+	update?(state: Configuration): void;
 	value: any;
 }
 
@@ -46,7 +39,7 @@ export abstract class View implements ViewType {
 	}
 	/**
 	 * Method that will be called once, to create the HTML for the component
-	 * 
+	 *
 	 * @param element The parent element where the component is.
 	 * @param windowObject The window variable. This is useful when running CTO UI in headless environment like jsDOM.
 	 */
@@ -73,7 +66,7 @@ export abstract class View implements ViewType {
 	/**
 	 * When your view changes, ask for an update, this will update all other views impacted.
 	 */
-	requestUpdate(direction ? : DirectionList) {
+	requestUpdate(direction?: DirectionList) {
 		const request = new Notification("requestRender", direction);
 		NotificationCenter.default.post(request);
 	}
@@ -92,17 +85,22 @@ interface RenderArguments {
  * @param container The HTML element you want to render your component in
  */
 export function render({ element, container, binder, useNS }: RenderArguments) {
-	const isNS = typeof element.props != "undefined" ? useNS || element.props["xmlns"] : useNS
-	const dom = isNS ? container.ownerDocument.createElementNS(isNS, element.type) : container.ownerDocument.createElement(element.type);
+	const isNS =
+		typeof element.props != "undefined"
+			? useNS || element.props["xmlns"]
+			: useNS;
+	const dom = isNS
+		? container.ownerDocument.createElementNS(isNS, element.type)
+		: container.ownerDocument.createElement(element.type);
 
 	if ((element as any)["ref"] != null) {
-		(element as any).ref.bind(binder)(dom)
+		(element as any).ref.bind(binder)(dom);
 	}
-	const isProperty = (key: any) => (key !== "children" && key !== "xmlns");
+	const isProperty = (key: any) => key !== "children" && key !== "xmlns";
 	if (typeof element.props != "undefined") {
 		Object.keys(element.props)
 			.filter(isProperty)
-			.forEach(name => {
+			.forEach((name) => {
 				if (
 					typeof element.props[name] == "function" &&
 					name.substring(0, 2) == "on"
@@ -113,15 +111,15 @@ export function render({ element, container, binder, useNS }: RenderArguments) {
 					);
 				} else {
 					if (isNS) {
-						dom.setAttributeNS(null, name, element.props[name])
+						dom.setAttributeNS(null, name, element.props[name]);
 					} else if (typeof dom[name] != "undefined") {
 						try {
 							dom[name] = element.props[name];
 						} catch {
-							dom.setAttribute(name, element.props[name])
+							dom.setAttribute(name, element.props[name]);
 						}
 					} else {
-						dom.setAttribute(name, element.props[name])
+						dom.setAttribute(name, element.props[name]);
 					}
 				}
 			});
@@ -130,11 +128,21 @@ export function render({ element, container, binder, useNS }: RenderArguments) {
 				if (typeof child == "string") {
 					(dom as HTMLElement).innerHTML += child;
 				} else {
-					render({ element: child, container: dom, binder, useNS: isNS })
+					render({
+						element: child,
+						container: dom,
+						binder,
+						useNS: isNS,
+					});
 				}
 			});
 		} else if (typeof element.props.children == "object") {
-			render({ element: (element.props.children as JSX.Element), container: dom, binder, useNS: isNS })
+			render({
+				element: element.props.children as JSX.Element,
+				container: dom,
+				binder,
+				useNS: isNS,
+			});
 		} else if (typeof element.props.children == "string") {
 			(dom as HTMLElement).innerHTML = element.props.children;
 		}

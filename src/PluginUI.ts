@@ -9,103 +9,115 @@ import { DirectionList } from "./Direction/DirectionList";
  */
 
 export class PluginUI {
-  /**
-   * Configuration for the plugin. The configuration defines the views and he layout of the plugin.
-   */
-  configuration: Configuration;
-  /**
-   * The cipher algorithm object
-   */
-  algorithm: Algorithm;
-  /**
-   * Where the plugin will be rendered
-   */
-  parent: HTMLElement;
+	/**
+	 * Configuration for the plugin. The configuration defines the views and he layout of the plugin.
+	 */
+	configuration: Configuration;
+	/**
+	 * The cipher algorithm object
+	 */
+	algorithm: Algorithm;
+	/**
+	 * Where the plugin will be rendered
+	 */
+	parent: HTMLElement;
 
-  /**
-   * Initiate the plugin
-   * @param config Configuration for the plugin. The configuration defines the views and he layout of the plugin.
-   */
-  constructor(
-    algorithm: new (bindings: Configuration) => Algorithm,
-    config: ConfigurationInitiator
-  ) {
-    this.configuration = this.configure(config);
-    this.algorithm = new algorithm(this.configuration);
-    this.parent = config.parent;
-    this.direction = DirectionList.InputToOutput;
+	/**
+	 * Initiate the plugin
+	 * @param config Configuration for the plugin. The configuration defines the views and he layout of the plugin.
+	 */
+	constructor(
+		algorithm: new (bindings: Configuration) => Algorithm,
+		config: ConfigurationInitiator
+	) {
+		this.configuration = this.configure(config);
+		this.algorithm = new algorithm(this.configuration);
+		this.parent = config.parent;
+		this.direction = DirectionList.InputToOutput;
 
-    NotificationCenter.default.addObserver(
-      "requestRender",
-      this.dispatchUpdate.bind(this)
-    );
-  }
+		NotificationCenter.default.addObserver(
+			"requestRender",
+			this.dispatchUpdate.bind(this)
+		);
+	}
 
-  configure(config: ConfigurationInitiator) {
-    return Object.fromEntries(
-      Object.entries(config)
-      .filter(entry => entry[0] != "parent")
-      .map(entry => {
-        const func = entry[1] as new (name: string) => ViewType
-        const view = new func(entry[0]);
-        return [entry[0], view];
-      })
-    )
-  }
+	configure(config: ConfigurationInitiator) {
+		return Object.fromEntries(
+			Object.entries(config)
+				.filter((entry) => entry[0] != "parent")
+				.map((entry) => {
+					const func = entry[1] as new (name: string) => ViewType;
+					const view = new func(entry[0]);
+					return [entry[0], view];
+				})
+		);
+	}
 
-  render(windowObject: any) {
-    this.parent.innerHTML = "" // Make sure the container is empty
-    
-    const views = Object.entries(this.configuration)
-    .filter(entry => entry[0] != "currentDirection")
+	render(windowObject: any) {
+		this.parent.innerHTML = ""; // Make sure the container is empty
 
-    views.forEach(view => {
-      let doc: Document;
-      if (__DEV__ && typeof window != "undefined") {
-        doc = windowObject.document;
-      } else {
-        doc = window.document;
-      }
-      const container = doc.createElement("div");
-      container.className = view[0] as string;
-      this.parent.appendChild(container);
+		const views = Object.entries(this.configuration).filter(
+			(entry) => entry[0] != "currentDirection"
+		);
 
-      const element = (view[1] as ViewType).render(container, windowObject);
-      render({ element, container, binder: (view[1] as ViewType) });
-    });
+		views.forEach((view) => {
+			let doc: Document;
+			if (__DEV__ && typeof window != "undefined") {
+				doc = windowObject.document;
+			} else {
+				doc = window.document;
+			}
+			const container = doc.createElement("div");
+			container.className = view[0] as string;
+			this.parent.appendChild(container);
 
-    this.dispatchUpdate(); // Hydration
-  }
+			const element = (view[1] as ViewType).render(
+				container,
+				windowObject
+			);
+			render({ element, container, binder: view[1] as ViewType });
+		});
 
-  direction: DirectionList;
+		this.dispatchUpdate(); // Hydration
+	}
 
-  dispatchUpdate(from?: DirectionList) {
-    if (typeof from != "undefined") {
-      this.direction = from;
-    }
+	direction: DirectionList;
 
-    switch (this.direction) {
-      case DirectionList.InputToOutput:
-        this.algorithm.encode();
-        break;
-      case DirectionList.OutputToInput:
-        if (this.algorithm.decode) {
-          this.algorithm.decode();
-        }
-        break;
-    }
+	dispatchUpdate(from?: DirectionList) {
+		if (typeof from != "undefined") {
+			this.direction = from;
+		}
 
-    const filter = (obj: object, predicate: (array: Array<any>) => Boolean) => Object.fromEntries(Object.entries(obj).filter(predicate));
+		switch (this.direction) {
+			case DirectionList.InputToOutput:
+				this.algorithm.encode();
+				break;
+			case DirectionList.OutputToInput:
+				if (this.algorithm.decode) {
+					this.algorithm.decode();
+				}
+				break;
+		}
 
-    const views = Object.values(filter(this.configuration, (entry) => entry[0] != "currentDirection")) as Array<ViewType>
+		const filter = (
+			obj: object,
+			predicate: (array: Array<any>) => Boolean
+		) => Object.fromEntries(Object.entries(obj).filter(predicate));
 
-    views.forEach(view => {
-      if (view.update) {
-        view.update({
-          currentDirection: this.direction,
-          ...this.configuration
-        });
-      }
-    });
-  }
+		const views = Object.values(
+			filter(
+				this.configuration,
+				(entry) => entry[0] != "currentDirection"
+			)
+		) as Array<ViewType>;
+
+		views.forEach((view) => {
+			if (view.update) {
+				view.update({
+					currentDirection: this.direction,
+					...this.configuration,
+				});
+			}
+		});
+	}
 }
