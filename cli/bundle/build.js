@@ -49,8 +49,10 @@ export default async function build(entry = "index.js") {
     
     const build = await bundler.run();
 
-    build.bundleGraph
-    .getBundles()
+    const bundle = build.bundleGraph
+        .getBundles();
+
+    bundle
     .filter(e => e.name.slice(-2) == "js")
     .forEach(async file => {
         await prependFile(file.filePath, "globalThis.require=()=>{throw new Error(\"Calls to `require` from umd module definitions are not supported\")};") // Fix Parcel scopehoist issue
@@ -69,8 +71,7 @@ export default async function build(entry = "index.js") {
         return timeInMs < 1000 ? `${timeInMs}ms` : `${(timeInMs / 1000).toFixed(2)}s`;
     }
 
-    build.bundleGraph
-    .getBundles()
+    bundle
     .filter(e => e.name.slice(-4) != "html")
     .forEach(file => {
         const dir = path.relative(process.cwd(), path.dirname(file.filePath));
@@ -81,6 +82,15 @@ export default async function build(entry = "index.js") {
             kleur.white(prettifyTime(time))
         ])
     })
+    spinner.info("Bundle size: \n" + table.toString())
 
-    console.log(table.toString())
+    // Create config file
+    const config = {
+        name: "cto ui plugin",
+        styles: bundle.filter(e => e.name.slice(-3).toLowerCase() == "css").map(file => path.relative(process.cwd() + "/dist", file.filePath)),
+        scripts: bundle.filter(e => e.name.slice(-2).toLowerCase() == "js").map(file => path.relative(process.cwd() + "/dist", file.filePath)),
+        html: "index.html"
+    }
+
+    fs.writeFileSync(path.join(process.cwd(), "dist/cto.config.json"), JSON.stringify(config))
 }
