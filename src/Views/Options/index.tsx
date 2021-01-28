@@ -45,6 +45,18 @@ class OptionsClass extends View {
 			const selector = (event.currentTarget as any).hash;
 			parent.querySelector(selector)?.classList.add("active");
 		};
+
+		function icon(name: string) {
+			switch (name) {
+				case "options":
+					return "fa-cog"
+				case "alphabet":
+					return "fa-font"
+				default:
+					return "fa-code"
+			}
+		}
+
 		return (
 			<div className="card">
 				<div className="card-header">
@@ -63,7 +75,7 @@ class OptionsClass extends View {
 									role="tab"
 									onClick={setTab}
 								>
-									<i className="fa fa-cog mr-2" />
+									<i className={ `fa mr-2 ${icon(key)}` } />
 									{titleCase(key)}
 								</a>
 							</li>

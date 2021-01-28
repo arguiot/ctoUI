@@ -1,8 +1,8 @@
 import {
     Direction,
     PluginUI, IO, Options, View, Boolean
-} from "../../dist/index";
-import "../../dist/cto-ui.cjs.development.css";
+} from "../../dist/cto-ui.cjs.production.min.js";
+// import "../../dist/cto-ui.cjs.development.css";
 
 class Algo {
     constructor(bindings) {

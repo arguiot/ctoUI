@@ -9,3 +9,4 @@ import { Text } from "./Views/IO/Text";
 export const IO = {
 	Text,
 };
+export { LocalesHelper } from "./Locales";

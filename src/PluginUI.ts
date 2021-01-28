@@ -3,6 +3,7 @@ import { Algorithm } from "./Algorithm";
 import { render, ViewType } from "./Views/View";
 import { NotificationCenter } from "@arguiot/broadcast.js";
 import { DirectionList } from "./Direction/DirectionList";
+import { Locales, LocalesHelper, LocalesHelperInterface } from "./Locales";
 
 /**
  * Creates and manages the plugin lifecycle
@@ -53,6 +54,10 @@ export class PluginUI {
 		);
 	}
 
+	/**
+	 * Render the interface. Call this only once.
+	 * @param windowObject The global window object.
+	 */
 	render(windowObject: any) {
 		this.parent.innerHTML = ""; // Make sure the container is empty
 
@@ -119,5 +124,17 @@ export class PluginUI {
 				});
 			}
 		});
+	}
+
+	/**
+	 * Loads the translation into the system. Make sure to call this function before calling "render"
+	 * @param dictionary Your translations, either in a dictionary form or a LocaleHelper object
+	 */
+	loadTranslations(dictionary: Locales | LocalesHelperInterface, windowObject: any = globalThis) {
+		if (dictionary instanceof LocalesHelper) {
+			windowObject.ctoUI_Locales = dictionary.dictionary
+		} else {
+			windowObject.ctoUI_Locales = dictionary
+		}
 	}
 }
