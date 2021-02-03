@@ -1,3 +1,5 @@
+import DefaultLocales from "./Default.locales";
+
 /**
  * Object representing variations of a key in multiple languages
  */
@@ -37,8 +39,13 @@ export class LocalesHelper implements LocalesHelperInterface {
         if (typeof window.ioApp == "object") {
             lang = window.ioApp.lang
         }
+        let unprocessed: Locales = window.ctoUI_Locales
 
-        const locales = Object.fromEntries(Object.entries((window.ctoUI_Locales as Locales)).map(line => {
+        if (typeof unprocessed == "undefined") {
+            unprocessed = {}
+        }
+
+        const translations = Object.fromEntries(Object.entries({...DefaultLocales, ...unprocessed} as Locales).map(line => {
             let value = line[1][lang.split("-")[0] as string]
             if (typeof value != "string") {
                 value = line[1]["en"]
@@ -49,6 +56,8 @@ export class LocalesHelper implements LocalesHelperInterface {
             ]
         }))
 
-        return (index: string) => locales[index]
+        return (index: string) => {
+            return translations[index] ?? index
+        }
     }
 }

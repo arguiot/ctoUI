@@ -1,6 +1,7 @@
 import { DirectionList } from "../../../Direction/DirectionList";
 import { View } from "../../View";
 import { Configuration } from "../../../Configuration";
+import { LocalesHelper } from "../../../Locales/Locales";
 
 export class Text extends View {
 	element?: HTMLElement;
@@ -11,9 +12,12 @@ export class Text extends View {
 
 	render(parent: HTMLElement) {
 		this.element = parent;
+
+		const t = LocalesHelper.getTranslations()
+
 		const element = (
 			<div className="form-group mt-3">
-				<label>Label</label>
+				<label>{ t(this.name) }</label>
 				<textarea
 					spellCheck="false"
 					rows={4}
@@ -26,9 +30,9 @@ export class Text extends View {
 						);
 					}}
 				>
-					Input
+					{ t(this.name + "Content") }
 				</textarea>
-				<span id="field-len" className="float-right length-label"></span>
+				<span id="field-len" className="float-right length-label">{ t("length") }: <span className="length-n"></span></span>
 			</div>
 		);
 
@@ -38,8 +42,8 @@ export class Text extends View {
 	update(_state: Configuration) {
 		if (this.element) {
 			this.element.querySelector(
-				"#field-len"
-			)!.innerHTML = `length: ${this.value.length}`;
+				"#field-len > .length-n"
+			)!.innerHTML = `${this.value.length}`;
 		}
 	}
 

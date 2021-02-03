@@ -1,11 +1,14 @@
 import { View } from "../View";
 import { nanoid } from "nanoid";
+import { LocalesHelper } from "../../Locales/Locales";
 
 export class Boolean extends View {
 	element?: HTMLInputElement;
 	uniq?: string;
 	render() {
 		this.uniq = nanoid();
+
+		const t = LocalesHelper.getTranslations()
 
 		return (
 			<div className="custom-control custom-checkbox mr-3 d-inline-block">
@@ -17,7 +20,7 @@ export class Boolean extends View {
                     onChange={() => this.requestUpdate()}
 				/>
 				<label className="custom-control-label" htmlFor={this.uniq}>
-					Label
+					{ t(this.name) }
 				</label>
 			</div>
 		);

@@ -3,7 +3,7 @@ import { Algorithm } from "./Algorithm";
 import { render, ViewType } from "./Views/View";
 import { NotificationCenter } from "@arguiot/broadcast.js";
 import { DirectionList } from "./Direction/DirectionList";
-import { Locales, LocalesHelper, LocalesHelperInterface } from "./Locales";
+import { Locales, LocalesHelper, LocalesHelperInterface } from "./Locales/Locales";
 
 /**
  * Creates and manages the plugin lifecycle

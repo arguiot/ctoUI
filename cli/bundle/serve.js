@@ -2,7 +2,8 @@ import path from "path";
 import Parcel from "parcel-bundler";
 import fs from "fs"
 import kleur from 'kleur';
-const app = require('express')();
+import express from "express"
+const app = express()
 
 export default async function serve(entry = "index.js") {
     const entryFile = path.join(process.cwd(), entry)
@@ -44,6 +45,8 @@ export default async function serve(entry = "index.js") {
             entryCSS: entry.split(".")[0]
         })
     })
+
+    app.use(express.static(process.cwd()))
 
     const server = app.listen(1234)
 

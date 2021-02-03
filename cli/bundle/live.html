@@ -1,9 +1,84 @@
 <html>
+<style>
+    .tab-content {
+        padding: calc(1rem + 1px);
+    }
+</style>
 <body>
-    <div class="plugin"></div>
+    <div class="container">
+        <div id="wrapper" class="mt-md-3">
+            <div class="row justify-content-between">
+                <h2 class="main-heading">Plugin Preview</h2>
+                <div>
+                    Switch to: 
+                    <a class="CTOUI_FLAG" href="/?lang=de">
+                        <img src="https://hatscripts.github.io/circle-flags/flags/de.svg" width="24">
+                    </a>
+                </div>
+            </div>
+            
+            <ul class="nav nav-tabs">
+                <li class="nav-item"><a class="nav-link active" href="#code" data-toggle="tab">Cipher</a></li>
+                <li class="nav-item"><a class="nav-link" href="#description" data-toggle="tab">Description</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="code" class="tab-pane active">
+                    <div class="plugin"></div>
+                </div>
+                <div id="description" class="tab-pane"></div>
+            </div>
+        </div>
+    </div>
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="./{{ entryCSS }}.css" />
+    <!-- Preview -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        let lang = urlParams.get('lang');
+        if (lang == null) { lang = "en" }
+
+        if (lang == "en") {
+            document.querySelector(".CTOUI_FLAG").href = "/?lang=de"
+            document.querySelector(".CTOUI_FLAG > img").src = "https://hatscripts.github.io/circle-flags/flags/de.svg"
+        } else {
+            document.querySelector(".CTOUI_FLAG").href = "/?lang=en"
+            document.querySelector(".CTOUI_FLAG > img").src = "https://hatscripts.github.io/circle-flags/flags/gb.svg"
+        }
+
+        window.ioApp = {
+            areaId: "cto", 
+            pageType: "subPage", 
+            lang, 
+            siteUrl: "https://www.cryptool.org", 
+            baseUrl: `/${lang}`
+        }
+
+        const CTOUI_links = document.querySelectorAll("#wrapper > ul > li > a");
+    
+        const CTOUI_setTab = (event) => {
+                const tabs = document.querySelectorAll("body > .container > #wrapper > .tab-content > .tab-pane");
+                tabs.forEach((el) => el.classList.remove("active"));
+    
+                CTOUI_links.forEach((el) => el.classList.remove("active"));
+    
+                event.currentTarget.classList.add("active");
+    
+                const selector = event.currentTarget.hash;
+                document.querySelector(selector).classList.add("active");
+
+                // Render description
+                fetch(`/${window.ioApp.lang}.md`).then(data => data.text()).then(markdown => {
+                    document.querySelector("#description").innerHTML = marked(markdown)
+                })
+        };
+    
+        CTOUI_links.forEach(el => el.addEventListener("click", CTOUI_setTab))
+    </script>
+    <!-- Runtime -->
     <script src="./{{ entry }}"></script>
 </body>
+
 </html>
