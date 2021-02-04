@@ -1,0 +1,51 @@
+# Internationalization
+CTO UI supports the localization of your texts/labels in your plugin. Internationalization, the process of structuring your plugin's code and UI for localization, is a fundamental step in building plugins for the global audience that Cryptool has.
+
+## Default translations
+Some words or expressions have already been translated by us. This allows you to focus on the specifics of your plugins. These words/expressions are very generic, and are usually based on the view names. For example, if you name your text input "input", it will be automatically translated.
+
+Normally, apart from the view name, any component from the standard library provided by CTO UI will be pre-translated.
+
+## Your own translations
+CTO UI let's you import your translated strings so you can use them through your plugin.
+
+### Terminology Guidelines
+Every word in your plugin is part of a conversation with your users. Use this conversation to help them feel comfortable while using CTO.
+
+**Use familiar, understandable words and phrases.** Technology can be intimidating, especially cryptogaphy. Avoid acronyms and technical jargon that people might not understand. Use what you know about your audience to determine whether certain words or phrases are appropriate. In general, plugins that appeal to everyone (like basic ciphers or codings) should steer clear of highly technical language. Such language may be appropriate in plugins that target a more advanced or technical crowd.
+
+**Keep interface text clear and concise.** People absorb short, direct text quickly and easily and don’t appreciate being forced to read long passages to accomplish a task. Identify the most important information, express it succinctly, and present it prominently so people don’t have to read too much to find what they’re looking for or figure out what to do next.
+
+**Identify interactive elements appropriately.** People should be able to tell at a glance what an element does. When labeling buttons and other interactive elements, use action verbs, such as Encrypt, Edit, and Add.
+
+**Avoid language that might sound patronizing.** Avoid we, our, me, and my (for example "our tutorial" and "my cipher"). They're sometimes interpreted as insulting or patronizing.
+
+**Strive for an informal, friendly tone.** An informal, approachable style echoes the way you speak with people over lunch. Use contractions occasionally, and you and your to address the user directly.
+
+**Be careful when using humor.** Remember that people are likely to read the text in your interface many times, and what might seem clever at first can become irritating over time. Also remember that humor in one culture doesn't necessarily translate well to other cultures.
+
+**Use relevant and consistent language and imagery.** Always make sure guidance is appropriate for the current context. Use language that’s consistent with the platform. You tap, flick, swipe, pinch, and drag content on the touchscreen. You press physical keys and click on a desktop machine. Since the web is an incredibly versatile platform make sure to reflect that as, regardless of the operating system, device, or location, people expect every web page (in our case, plugins) to fit their use perfectly.
+
+**Refer to dates accurately.** It’s appropriate to use friendly terms like today and tomorrow, but these terms can be confusing or inaccurate if you don’t account for the current locale. Consider an event that starts just before midnight. In one time zone, the event may start today. In another time zone, the same event may have started yesterday. Generally, dates should reflect the time zone of the person viewing the event.
+
+### Import translations in CTO UI
+Importing your localized strings in CTO UI is very simple: let's say you have the following strings:
+```js
+const locales = {
+    someLocaleKey: {
+        en: "Text in English."
+        de: "Text auf Deutsch."
+    },
+    ...
+}
+```
+
+You can load your translations right before you call the `render` method:
+
+```js
+// Loads translations. Make sure to leave that here, even when you don't need to translate anything!
+plugin.loadTranslations(locales, window)
+```
+
+## Working with description files
+Each plugin created with CTO UI is expected to have a detailed description of how it works. This description must also be translated into English and German. To do so, please include 2 markdown files in your project: `en.md` for the English version and `de.md` for the German version. CTO UI will take care of compiling and linking the two files accordingly.

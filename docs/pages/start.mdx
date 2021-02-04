@@ -100,5 +100,8 @@ import { PluginUI } from "@cryptool/cto-ui"; // Make sure to import from the pac
 
 const plugin = new PluginUI(Algorithm, configuration)
 
+// Loads translations. Make sure to leave that here, even when you don't need to translate anything!
+plugin.loadTranslations({}, window)
+// Renders the final UI!
 plugin.render(window)
 ```
