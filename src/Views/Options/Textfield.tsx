@@ -19,7 +19,7 @@ export class Textfield extends View {
 					className="form-control"
 					id={this.uniq}
                     ref={ el => { this.element = el! }}
-                    onChange={() => this.requestUpdate()}
+                    onInput={() => this.requestUpdate()}
 				/>
 			</div>
 		);

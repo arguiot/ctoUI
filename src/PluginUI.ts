@@ -92,6 +92,9 @@ export class PluginUI {
 		if (typeof from != "undefined") {
 			this.direction = from;
 		}
+		if (this.direction == null) {
+			this.direction = DirectionList.InputToOutput // Default option
+		}
 
 		switch (this.direction) {
 			case DirectionList.InputToOutput:
