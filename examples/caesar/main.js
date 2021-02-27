@@ -1,6 +1,6 @@
 import {
     Direction,
-    PluginUI, IO, Options, View, Boolean
+    PluginUI, IO, Options, View, Boolean, Textfield
 } from "../../dist/cto-ui.cjs.production.min.js";
 // import "../../dist/cto-ui.cjs.development.css";
 
@@ -110,7 +110,8 @@ const plugin = new PluginUI(Algo, {
     options: Options({
         options: {
             bool: Boolean,
-            test: Boolean
+            test: Boolean,
+            text: Textfield
         }
     }),
     input: IO.Text,
@@ -118,5 +119,12 @@ const plugin = new PluginUI(Algo, {
     output: IO.Text,
     parent: window.document.querySelector(".plugin"),
 })
+
+plugin.loadTranslations({
+    text: {
+        en: "Text in English",
+        de: "Text auf Deutsch"
+    }
+}, window)
 
 plugin.render(window)
