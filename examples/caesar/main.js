@@ -1,6 +1,6 @@
 import {
     Direction,
-    PluginUI, IO, Options, View, Boolean, Textfield
+    PluginUI, IO, Options, View, Boolean, Textfield, Alphabet
 } from "../../dist/cto-ui.cjs.production.min.js";
 // import "../../dist/cto-ui.cjs.development.css";
 
@@ -65,7 +65,7 @@ class Algo {
             2,
             true,
             false,
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+            this.bindings.options.value.alphabet.value,
             true
         )
     }
@@ -76,7 +76,7 @@ class Algo {
             2,
             false,
             false,
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+            this.bindings.options.value.alphabet.value,
             true
         )
     }
@@ -112,7 +112,8 @@ const plugin = new PluginUI(Algo, {
             bool: Boolean,
             test: Boolean,
             text: Textfield
-        }
+        },
+        alphabet: Alphabet
     }),
     input: IO.Text,
     direction: Direction.Both,

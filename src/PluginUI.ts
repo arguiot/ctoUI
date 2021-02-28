@@ -89,6 +89,7 @@ export class PluginUI {
 	direction: DirectionList;
 
 	dispatchUpdate(from?: DirectionList) {
+		// console.log("[CTO UI] Dispatch Update")
 		if (typeof from != "undefined") {
 			this.direction = from;
 		}

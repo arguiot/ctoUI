@@ -1,3 +1,5 @@
+import { Configuration } from "../../Configuration";
+import { LocalesHelper } from "../../Locales/Locales";
 import { render, View, ViewType } from "../View";
 
 class OptionsClass extends View {
@@ -22,11 +24,27 @@ class OptionsClass extends View {
 		);
 	}
 
+	update(state: Configuration) {
+		function dispatch(object: OptionsViews) {
+			Object.values(object).forEach((view) => {
+				if (typeof view.update == "function") {
+					view.update(state);
+				} else {
+					dispatch(view as FinalOptionsViews)
+				}
+			});
+		}
+		dispatch(this.value)
+	}
+
 	render(parent: HTMLElement) {
 		this.element = parent;
 
+		const t = LocalesHelper.getTranslations()
+
 		function titleCase(camelCase: string) {
-			const reg = camelCase.replace(/([A-Z])/g, " $1");
+			const locale = t(camelCase)
+			const reg = locale.replace(/([A-Z])/g, " $1");
 			const result = reg.charAt(0).toUpperCase() + reg.slice(1);
 
 			return result;

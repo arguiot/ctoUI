@@ -30,5 +30,53 @@ export default {
     length: {
         en: "Length",
         de: "Länge"
+    },
+    options: {
+        en: "Options",
+        de: "Optionen"
+    },
+    alphabet: {
+        en: "Alphabet",
+        de: "Alphabet"
+    },
+    plainTextAlphabet: {
+        en: "Plaintext alphabet",
+        de: "Klartext-Alphabet"
+    },
+    cipherTextAlphabet: {
+        en: "Ciphertext alphabet",
+        de: "Geheimtext-Alphabet"
+    },
+    upperCase: {
+        en: "Upper case",
+        de: "Großbuchstaben"
+    },
+    lowerCase: {
+        en: "Lower case",
+        de: "Kleinbuchstaben"
+    },
+    digits: {
+        en: "Digits",
+        de: "Ziffern"
+    },
+    punctuation: {
+        en: "Punctuation marks",
+        de: "Satzzeichen"
+    },
+    umlauts: {
+        en: "Umlauts",
+        de: "Umlaute"
+    },
+    blanks: {
+        en: "Blanks",
+        de: "Leerzeichen"
+    },
+    createAlphabet: {
+        en: "Use constructed alphabet",
+        de: "Konstruiertes Alphabet nutzen"
+    },
+    defineAlphabet: {
+        en: "Define own alphabet",
+        de: "Eigenes Alphabet definieren"
     }
 }

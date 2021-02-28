@@ -6,6 +6,7 @@ export { Direction } from "./Direction/Directions";
 export { Options } from "./Views/Options";
 export { Boolean } from "./Views/Options/Boolean"
 export { Textfield } from "./Views/Options/Textfield"
+export { Alphabet } from "./Views/Options/Alphabet"
 import { Text } from "./Views/IO/Text";
 export const IO = {
 	Text,

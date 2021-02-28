@@ -27,7 +27,7 @@ export abstract class View implements ViewType {
 	 *	placement: PlacementType;
 	 *
 	 *	constructor() {
-	 *		super();
+	 *		super(...arguments);
 	 *		this.placement = Placement.Input;
 	 *	}
 	 * ```
