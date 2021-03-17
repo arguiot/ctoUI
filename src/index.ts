@@ -8,7 +8,9 @@ export { Boolean } from "./Views/Options/Boolean"
 export { Textfield } from "./Views/Options/Textfield"
 export { Alphabet } from "./Views/Options/Alphabet"
 import { Text } from "./Views/IO/Text";
+import { Key } from "./Views/IO/Key";
 export const IO = {
 	Text,
+	Key
 };
 export { LocalesHelper } from "./Locales/Locales";

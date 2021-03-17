@@ -90,13 +90,13 @@ export class PluginUI {
 
 	dispatchUpdate(from?: DirectionList) {
 		// console.log("[CTO UI] Dispatch Update")
-		if (typeof from != "undefined") {
+		if (typeof from != "undefined" && from != null) {
 			this.direction = from;
 		}
 		if (this.direction == null) {
 			this.direction = DirectionList.InputToOutput // Default option
 		}
-
+		
 		switch (this.direction) {
 			case DirectionList.InputToOutput:
 				this.algorithm.encode();

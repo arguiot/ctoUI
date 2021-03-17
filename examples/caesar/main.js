@@ -1,6 +1,6 @@
 import {
     Direction,
-    PluginUI, IO, Options, View, Boolean, Textfield, Alphabet
+    PluginUI, IO, Options, View, Alphabet
 } from "../../dist/cto-ui.cjs.production.min.js";
 // import "../../dist/cto-ui.cjs.development.css";
 
@@ -62,7 +62,7 @@ class Algo {
     encode() {
         this.bindings.output.value = this.algorithm(
             this.bindings.input.value,
-            2,
+            this.bindings.options.value.options.key.value,
             true,
             false,
             this.bindings.options.value.alphabet.value,
@@ -73,7 +73,7 @@ class Algo {
     decode() {
         this.bindings.input.value = this.algorithm(
             this.bindings.output.value,
-            2,
+            this.bindings.options.value.options.key.value,
             false,
             false,
             this.bindings.options.value.alphabet.value,
@@ -109,9 +109,7 @@ class Component extends View {
 const plugin = new PluginUI(Algo, {
     options: Options({
         options: {
-            bool: Boolean,
-            test: Boolean,
-            text: Textfield
+            key: IO.Key
         },
         alphabet: Alphabet
     }),
