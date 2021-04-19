@@ -23,6 +23,43 @@ export class PluginUI {
 	 */
 	parent: HTMLElement;
 
+	bindings(target: Configuration): any {
+		const hasKey = <T extends object>(obj: T, k: keyof any): k is keyof T => k in obj;
+
+		const handler = {
+			get: (target: any, key: string): any | undefined => {
+				if (!hasKey(target, key)) { return undefined }
+				const t = target[key] as any
+				const newTarget = t.value
+				if (typeof newTarget == "undefined") { 
+					if (typeof t == "object") {
+						return new Proxy(t, handler)
+					}
+					return t 
+				}
+				if (typeof newTarget != "object") { return newTarget }
+				const p = new Proxy(newTarget, handler)
+				return p
+			},
+			set: (target: any, key: string, value: any) => {
+				if (!hasKey(target, key)) {
+					target[key] = value
+					return true
+				}
+				const t = target[key] as any
+				if (hasKey(t, "value")) {
+					target[key].value = value
+					return true
+				}
+				target[key] = value
+				return true
+			}
+		}
+
+		const p = new Proxy(target, handler)
+		return p
+	}
+
 	/**
 	 * Initiate the plugin
 	 * @param config Configuration for the plugin. The configuration defines the views and he layout of the plugin.
@@ -32,7 +69,7 @@ export class PluginUI {
 		config: ConfigurationInitiator
 	) {
 		this.configuration = this.configure(config);
-		this.algorithm = new algorithm(this.configuration);
+		this.algorithm = new algorithm(this.bindings(this.configuration));
 		this.parent = config.parent;
 		this.direction = DirectionList.InputToOutput;
 

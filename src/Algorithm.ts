@@ -1,4 +1,4 @@
-import { Configuration } from "./Configuration";
+import { Bindings } from "./Configuration";
 
 /**
  * The cipher algorithm, defined as 1 or 2 simple methods.
@@ -7,7 +7,7 @@ export interface Algorithm {
 	/**
 	 * Bindings for the views, as defined in the Configuration
 	 */
-	bindings: Configuration;
+	bindings: Bindings;
 	/**
 	 * Encode method that should set the output like:
 	 * ```js

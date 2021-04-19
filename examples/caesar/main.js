@@ -60,23 +60,23 @@ class Algo {
     }
 
     encode() {
-        this.bindings.output.value = this.algorithm(
-            this.bindings.input.value,
-            this.bindings.options.value.options.key.value,
+        this.bindings.output = this.algorithm(
+            this.bindings.input,
+            this.bindings.options.options.key,
             true,
             false,
-            this.bindings.options.value.alphabet.value,
+            this.bindings.options.alphabet,
             true
         )
     }
 
     decode() {
-        this.bindings.input.value = this.algorithm(
-            this.bindings.output.value,
-            this.bindings.options.value.options.key.value,
+        this.bindings.input = this.algorithm(
+            this.bindings.output,
+            this.bindings.options.options.key,
             false,
             false,
-            this.bindings.options.value.alphabet.value,
+            this.bindings.options.alphabet,
             true
         )
     }

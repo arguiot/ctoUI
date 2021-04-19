@@ -8,6 +8,12 @@ export interface Configuration {
 	[key: string]: ViewType | DirectionList | undefined;
 	currentDirection?: DirectionList;
 }
+/**
+ * Bindings for configuration / state
+ */
+export interface Bindings {
+	[key: string]: any | undefined;
+}
 
 /**
  * Configuation interface for the PluginUI class
