@@ -23,7 +23,7 @@ describe("Use cipher", () => {
         .type("HELLO WORLD!")
 
         cy.get(".output textarea")
-        .should("have.value", "JGNNQ YQTNF!")
+        .should("have.value", "IFMMP XPSME!")
 
         cy.get("#direction")
         .should("have.css", "transform", "none")
@@ -32,7 +32,7 @@ describe("Use cipher", () => {
     it("should decrypt properly", () => {
         cy.get(".output textarea")
         .clear()
-        .type("JGNNQ YQTNF, K'O FGETARVGF!")
+        .type("IFMMP XPSME, J'N EFDSZQUFE!")
 
         cy.get(".input textarea")
         .should("have.value", "HELLO WORLD, I'M DECRYPTED!")
