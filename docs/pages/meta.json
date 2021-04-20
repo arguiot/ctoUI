@@ -1,5 +1,6 @@
 {
     "index": "CTO UI",
     "start": "Get Started",
-    "docs": "Documentation"
+    "docs": "Documentation",
+    "notReact": "Why not React?"
 }
