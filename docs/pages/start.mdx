@@ -51,7 +51,7 @@ class Algorithm {
      * This way, we can ensure that only the ouput is re-rendered.
      */
     encode() {
-        this.bindings.output.value = yourEncodeMethod(this.bindings.input.value) // Access the input value from the bindings
+        this.bindings.output.value = yourEncodeMethod(this.bindings.input) // Access the input value from the bindings
     }
     /**
      * (Optional, only if you want to encode and decode)
@@ -59,7 +59,7 @@ class Algorithm {
      * Same thing as the encode method but this time you need to set the input.
      */
     decode() {
-        this.bindings.input.value = yourDecodeMethod(this.bindings.input.value)
+        this.bindings.input.value = yourDecodeMethod(this.bindings.input)
     }
 }
 ```

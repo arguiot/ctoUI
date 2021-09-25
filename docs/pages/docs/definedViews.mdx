@@ -6,6 +6,9 @@ CTO UI makes your life easy by offering a component system specifically designed
 ### `IO.Text`
 As its name suggests, it allows you to have a text area for your plugin. Moreover, depending on whether you name it `input` or `output`, it will affect the direction arrow (which must be in the middle).
 
+### `IO.Key`
+The key view is a simple counter that helps define a numeric key for your algorithm. It's particularly useful in algorithm such as Caesar, Railfence, etc.
+
 ## Composable views
 Unlike HTML, CTO UI allows only a shallow description of the desired UI. To create nested views and create a hierarchy, you will need to use composable views. Composable views are normal views that accept other views as arguments.
 
@@ -32,3 +35,6 @@ These views are made to be very basic, so that complex UIs can be built on solid
 
 ### `Boolean`
 The `Boolean` view is a single checkbox with a label. It doesn't require any options, and can be used in composable views, like option tabs.
+
+### `Textfield`
+The `Textfield` is a single textfield that can be used to enter any text. It doesn't require any options, and can be used in composable views, like option tabs.
