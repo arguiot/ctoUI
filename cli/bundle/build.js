@@ -92,5 +92,5 @@ export default async function build(entry = "index.js") {
         html: "index.html"
     }
 
-    fs.writeFileSync(path.join(process.cwd(), "dist/cto.config.json"), JSON.stringify(config))
+    fs.writeFileSync(path.join(process.cwd(), "dist/cto.config.json"), JSON.stringify(config, null, "\t"))
 }
