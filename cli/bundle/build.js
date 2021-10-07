@@ -1,6 +1,6 @@
 import path from "path";
 import Parcel from "@parcel/core";
-import fs from "fs"
+import fs from "fs/promises"
 import prependFile from "prepend-file"
 import Handlebars from "handlebars"
 import Table from 'cli-table';
@@ -11,27 +11,27 @@ import ora from "ora";
 export default async function build(entry = "index.js") {
     const spinner = ora('Cleaning previous dist directory').start();
 
-    fs.rmSync(path.join(process.cwd(), "dist"), {
+    await fs.rm(path.join(process.cwd(), "dist"), {
         recursive: true,
         force: true
-    });
-
-    process.env.NODE_ENV = "production"
+    })
 
     spinner.text = 'Creating HTML fragment';
 
-    const file = fs.readFileSync(path.join(__dirname, "build.html")).toString()
+    const raw = await fs.readFile(path.join(__dirname, "build.html"))
+    const file = raw.toString()
     const template = Handlebars.compile(file)
 
-    fs.writeFileSync(path.join(process.cwd(), "index.html"), template({
+    const compiled = template({
         entry
-    }))
-
+    })
+    await fs.writeFile(path.join(process.cwd(), "index.html"), compiled)
+    
     const entryFile = path.join(process.cwd(), "index.html")
     const options = {
         entries: entryFile,
         distDir: path.join(process.cwd(), "dist"),
-        defaultConfig: require.resolve("@parcel/config-default"),
+        defaultConfig: "@parcel/config-default",
         defaultEngines: {
             browsers: [">0.2%"],
         },
@@ -40,13 +40,15 @@ export default async function build(entry = "index.js") {
         scopeHoist: true,
         autoinstall: true,
         logLevel: "warn",
-        mode: "production"
+        mode: "production",
+        env: {
+            NODE_ENV: 'production'
+        }
     }
-
     spinner.text = 'Creating and optimizing bundle';
 
     const bundler = new Parcel(options);
-    
+
     const build = await bundler.run();
 
     const bundle = build.bundleGraph
@@ -58,7 +60,7 @@ export default async function build(entry = "index.js") {
         await prependFile(file.filePath, "globalThis.require=()=>{throw new Error(\"Calls to `require` from umd module definitions are not supported\")};") // Fix Parcel scopehoist issue
     })
 
-    fs.rmSync(path.join(process.cwd(), "index.html"));
+    await fs.rm(path.join(process.cwd(), "index.html"));
 
     spinner.succeed("Successfully created bundle")
 
@@ -92,5 +94,5 @@ export default async function build(entry = "index.js") {
         html: "index.html"
     }
 
-    fs.writeFileSync(path.join(process.cwd(), "dist/cto.config.json"), JSON.stringify(config, null, "\t"))
+    await fs.writeFile(path.join(process.cwd(), "dist/cto.config.json"), JSON.stringify(config, null, "\t"))
 }
